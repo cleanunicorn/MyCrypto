@@ -4,7 +4,7 @@
 $circle-width: 4rem;
 $circle-width-phone: 3rem;
 $track-size: .25rem;
-$track-color: shade-dark(0.2);
+$step-colors: (1: #1e92ba, 2: #175575, 3: #19b3ae, 4: #143955, 5: #1e92ba);
 
 .SwapProgress {
   margin-top: 2rem;
@@ -14,11 +14,11 @@ $track-color: shade-dark(0.2);
 
   &-track {
     position: absolute;
-    top: 3.4rem;
-    left: 10%;
-    right: 10%;
+    top: 3.5rem;
+    left: $cont-padding-lg;
+    right: $cont-padding-lg;
     height: $track-size;
-    background-color: $track-color;
+    background-color: $gray-lighter;
   }
 
   &-item {
@@ -36,22 +36,27 @@ $track-color: shade-dark(0.2);
       padding-bottom: $circle-width;
       position: relative;
       width: $circle-width;
-      background: color(pane-bg);
-      color: $track-color;
-      border-color: $track-color;
+      background: white;
+      color: $gray;
+      border-color: $gray;
 
-      .is-active & {
-        border-color: color(brand-primary);
-        color: color(brand-primary);
+      @each $idx, $color in $step-colors {
+        &.position-#{$idx} {
+          border-color: fade-out($color, 0.6);
+          color: fade-out($color, 0.6);
+
+          .is-active & {
+            border-color: $color;
+            color: $color;
+          }
+        }
       }
 
       .is-complete & {
-        border-color: color(brand-success);
-        background: color(brand-success);
-        box-shadow: inset 0px 0px 0px $space-xs color(control-bg);
-        color: color(text-color-inverted);
-
-
+        border-color: $brand-success;
+        background: $brand-success;
+        box-shadow: inset 0px 0px 0px $space-xs white;
+        color: #fff;
       }
 
       &-number {
@@ -79,7 +84,7 @@ $track-color: shade-dark(0.2);
       font-size: $font-size-small;
       font-weight: 600;
       text-transform: uppercase;
-      color: shade-dark(0.2);
+      color: fade-out(lighten($gray, 10%), 0.5);
       letter-spacing: .1em;
 
       small {
@@ -88,11 +93,11 @@ $track-color: shade-dark(0.2);
       }
 
       .is-active & {
-        color: shade-dark(0.7);
+        color: lighten($gray, 10%);
       }
 
       .is-complete & {
-        color: color(brand-success);
+        color: $brand-success;
       }
     }
   }

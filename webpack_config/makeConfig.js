@@ -32,8 +32,6 @@ module.exports = function(opts = {}) {
   // ====== Entry =======
   // ====================
   const entry = {
-    badBrowserCheckA: './common/badBrowserCheckA.js',
-    badBrowserCheckB: './common/badBrowserCheckB.js',
     client: './common/index.tsx'
   };
 

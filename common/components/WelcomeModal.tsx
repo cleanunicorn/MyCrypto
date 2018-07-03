@@ -11,7 +11,7 @@ interface State {
   isOpen: boolean;
 }
 
-export default class WelcomeModal extends React.PureComponent<{}, State> {
+export default class WelcomeModal extends React.Component<{}, State> {
   public state: State = {
     isOpen: false
   };

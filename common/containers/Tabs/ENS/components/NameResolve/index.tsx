@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { AppState } from 'reducers';
 import { NameState } from 'libs/ens';
-import { AppState } from 'features/reducers';
-import { Spinner } from 'components/ui';
 import {
   NameOwned,
   NameAuction,
@@ -12,6 +10,7 @@ import {
   NameOpen,
   NameReveal
 } from './components';
+import { Spinner } from 'components/ui';
 import './NameResolve.scss';
 
 type Props = AppState['ens'];
@@ -33,7 +32,7 @@ const NameResolve: React.SFC<Props> = props => {
     return null;
   }
 
-  const domainData = domainRequests[currentDomain].data || false;
+  const domainData = domainRequests[currentDomain].data! || false;
   let content;
 
   if (domainData) {

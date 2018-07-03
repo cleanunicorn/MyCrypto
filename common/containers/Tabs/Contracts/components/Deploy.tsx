@@ -1,21 +1,20 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
 import translate from 'translations';
-import { transactionFieldsActions } from 'features/transaction';
-import { walletActions } from 'features/wallet';
-import { NonceField, TXMetaDataPanel, SigningStatus } from 'components';
-import { FullWalletOnly } from 'components/renderCbs';
-import { TextArea } from 'components/ui';
 import { DataFieldFactory } from 'components/DataFieldFactory';
 import { SendButtonFactory } from 'components/SendButtonFactory';
 import WalletDecrypt, { DISABLE_WALLETS } from 'components/WalletDecrypt';
-import { ConfirmationModal } from 'components/ConfirmationModal';
+import React, { Component } from 'react';
+import { resetTransactionRequested, TResetTransactionRequested } from 'actions/transaction';
+import { resetWallet, TResetWallet } from 'actions/wallet';
+import { connect } from 'react-redux';
+import { FullWalletOnly } from 'components/renderCbs';
+import { NonceField, TXMetaDataPanel, SigningStatus } from 'components';
 import './Deploy.scss';
+import { ConfirmationModal } from 'components/ConfirmationModal';
+import { TextArea } from 'components/ui';
 
 interface DispatchProps {
-  resetWallet: walletActions.TResetWallet;
-  resetTransactionRequested: transactionFieldsActions.TResetTransactionRequested;
+  resetWallet: TResetWallet;
+  resetTransactionRequested: TResetTransactionRequested;
 }
 
 class DeployClass extends Component<DispatchProps> {
@@ -98,6 +97,6 @@ class DeployClass extends Component<DispatchProps> {
 }
 
 export const Deploy = connect(null, {
-  resetWallet: walletActions.resetWallet,
-  resetTransactionRequested: transactionFieldsActions.resetTransactionRequested
+  resetWallet,
+  resetTransactionRequested
 })(DeployClass);

@@ -1,17 +1,19 @@
+import EthTx from 'ethereumjs-tx';
+import { OnlineSend } from './OnlineSend';
+import { getWalletType, IWalletType } from 'selectors/wallet';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import EthTx from 'ethereumjs-tx';
-
-import { AppState } from 'features/reducers';
-import * as derivedSelectors from 'features/selectors';
-import { walletSelectors } from 'features/wallet';
-import {
-  transactionNetworkSelectors,
-  transactionSignSelectors,
-  transactionSelectors
-} from 'features/transaction';
+import { AppState } from 'reducers';
 import { ConfirmationModal } from 'components/ConfirmationModal';
-import { OnlineSend } from './OnlineSend';
+import {
+  getSerializedTransaction,
+  getTransaction,
+  isNetworkRequestPending,
+  isValidGasPrice,
+  isValidGasLimit,
+  getSignedTx,
+  getWeb3Tx
+} from 'selectors/transaction';
 
 export interface CallbackProps {
   disabled: boolean;
@@ -20,7 +22,7 @@ export interface CallbackProps {
 }
 
 interface StateProps {
-  walletType: walletSelectors.IWalletType;
+  walletType: IWalletType;
   serializedTransaction: AppState['transaction']['sign']['local']['signedTransaction'];
   transaction: EthTx;
   isFullTransaction: boolean;
@@ -74,14 +76,13 @@ export class SendButtonFactoryClass extends Component<Props> {
 
 const mapStateToProps = (state: AppState) => {
   return {
-    walletType: walletSelectors.getWalletType(state),
-    serializedTransaction: derivedSelectors.getSerializedTransaction(state),
-    ...derivedSelectors.getTransaction(state),
-    networkRequestPending: transactionNetworkSelectors.isNetworkRequestPending(state),
-    validGasPrice: transactionSelectors.isValidGasPrice(state),
-    validGasLimit: transactionSelectors.isValidGasLimit(state),
-    signedTx:
-      !!transactionSignSelectors.getSignedTx(state) || !!transactionSignSelectors.getWeb3Tx(state)
+    walletType: getWalletType(state),
+    serializedTransaction: getSerializedTransaction(state),
+    ...getTransaction(state),
+    networkRequestPending: isNetworkRequestPending(state),
+    validGasPrice: isValidGasPrice(state),
+    validGasLimit: isValidGasLimit(state),
+    signedTx: !!getSignedTx(state) || !!getWeb3Tx(state)
   };
 };
 

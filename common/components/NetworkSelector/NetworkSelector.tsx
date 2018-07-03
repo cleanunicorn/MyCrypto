@@ -1,21 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import translate, { translateRaw } from 'translations';
-import { NodeConfig } from 'types/node';
-import { NetworkConfig } from 'types/network';
-import { AppState } from 'features/reducers';
+import NetworkOption from './NetworkOption';
 import {
   TChangeNodeRequested,
   changeNodeRequested,
   TChangeNetworkRequested,
-  changeNetworkRequested,
+  changeNetworkRequested
+} from 'actions/config';
+import {
   getNodeConfig,
   getNetworkConfig,
   getAllNodes,
   getAllNetworkConfigs
-} from 'features/config';
-import NetworkOption from './NetworkOption';
+} from 'selectors/config';
+import { NodeConfig } from 'types/node';
+import { NetworkConfig } from 'types/network';
+import { AppState } from 'reducers';
 import './NetworkSelector.scss';
 
 const CORE_NETWORKS = ['ETH', 'ETC', 'Ropsten', 'Kovan', 'Rinkeby'];

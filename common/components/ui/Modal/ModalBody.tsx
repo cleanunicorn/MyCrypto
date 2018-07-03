@@ -1,5 +1,4 @@
 import React, { CSSProperties } from 'react';
-
 import closeIcon from 'assets/images/close.svg';
 import { IButton } from 'components/ui/Modal';
 
@@ -9,8 +8,7 @@ interface Props {
   modalStyle?: CSSProperties;
   hasButtons?: number;
   buttons?: IButton[];
-  disableButtons?: boolean;
-  hideButtons?: boolean;
+  disableButtons?: any;
   handleClose(): void;
 }
 
@@ -46,7 +44,7 @@ export default class ModalBody extends React.Component<Props> {
   };
 
   public render() {
-    const { title, children, modalStyle, hasButtons, hideButtons, handleClose } = this.props;
+    const { title, children, modalStyle, hasButtons, handleClose } = this.props;
     return (
       <div
         className="Modal"
@@ -69,9 +67,9 @@ export default class ModalBody extends React.Component<Props> {
 
         <div className="Modal-content" ref={div => (this.modalContent = div as HTMLElement)}>
           {children}
-          <div className={`Modal-fade ${!hasButtons || hideButtons ? 'has-no-footer' : ''}`} />
+          <div className={`Modal-fade ${!hasButtons ? 'has-no-footer' : ''}`} />
         </div>
-        {hasButtons && !hideButtons && <div className="Modal-footer">{this.renderButtons()}</div>}
+        {hasButtons && <div className="Modal-footer">{this.renderButtons()}</div>}
       </div>
     );
   }

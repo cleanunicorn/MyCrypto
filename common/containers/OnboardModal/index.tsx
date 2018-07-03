@@ -1,13 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import translate from 'translations';
 import Stepper from 'react-stepper-horizontal';
-
-import translate, { translateRaw } from 'translations';
-import { ONBOARD_LOCAL_STORAGE_KEY, NUMBER_OF_ONBOARD_SLIDES } from 'utils/localStorage';
-import { AppState } from 'features/reducers';
-import { notificationsActions } from 'features/notifications';
-import { onboardStatusActions } from 'features/onboardStatus';
+import { showNotification, TShowNotification } from 'actions/notifications';
+import { AppState } from 'reducers';
 import Modal, { IButton } from 'components/ui/Modal';
+import './index.scss';
+import {
+  startOnboardSession,
+  TStartOnboardSession,
+  decrementSlide,
+  TDecrementSlide,
+  incrementSlide,
+  TIncrementSlide,
+  resumeSlide,
+  TResumeSlide
+} from 'actions/onboardStatus';
 import {
   WelcomeSlide,
   NotABankSlide,
@@ -20,7 +28,7 @@ import {
   SecureSlideThree,
   FinalSlide
 } from './components';
-import './index.scss';
+import { ONBOARD_LOCAL_STORAGE_KEY, NUMBER_OF_ONBOARD_SLIDES } from 'utils/localStorage';
 
 interface State {
   isOpen: boolean;
@@ -29,11 +37,11 @@ interface State {
 interface Props {
   sessionStarted: boolean;
   slideNumber: number;
-  startOnboardSession: onboardStatusActions.TStartOnboardSession;
-  resumeSlide: onboardStatusActions.TResumeSlide;
-  decrementSlide: onboardStatusActions.TDecrementSlide;
-  incrementSlide: onboardStatusActions.TIncrementSlide;
-  showNotification: notificationsActions.TShowNotification;
+  startOnboardSession: TStartOnboardSession;
+  resumeSlide: TResumeSlide;
+  decrementSlide: TDecrementSlide;
+  incrementSlide: TIncrementSlide;
+  showNotification: TShowNotification;
 }
 
 class OnboardModal extends React.Component<Props, State> {
@@ -63,7 +71,7 @@ class OnboardModal extends React.Component<Props, State> {
           isOpen: true
         });
 
-        const onboardResumeMessage = translateRaw('ONBOARD_RESUME');
+        const onboardResumeMessage = translate('ONBOARD_RESUME');
 
         // Wait a sec so it doesn't get lost in the page-load
         setTimeout(() => {
@@ -182,9 +190,9 @@ function mapStateToProps(state: AppState) {
 }
 
 export default connect(mapStateToProps, {
-  startOnboardSession: onboardStatusActions.startOnboardSession,
-  resumeSlide: onboardStatusActions.resumeSlide,
-  decrementSlide: onboardStatusActions.decrementSlide,
-  incrementSlide: onboardStatusActions.incrementSlide,
-  showNotification: notificationsActions.showNotification
+  startOnboardSession,
+  resumeSlide,
+  decrementSlide,
+  incrementSlide,
+  showNotification
 })(OnboardModal);

@@ -1,8 +1,7 @@
 import React from 'react';
-
 import translate from 'translations';
-import onboardIconSeven from 'assets/images/onboarding/slide-07.svg';
 import OnboardSlide from './OnboardSlide';
+import onboardIconSeven from 'assets/images/onboarding/slide-07.svg';
 
 const SecureSlideOne = () => {
   const header = translate('ONBOARD_SECURE_1_TITLE');

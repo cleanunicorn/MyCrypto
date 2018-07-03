@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
-import { AppState } from 'features/reducers';
-import * as selectors from 'features/selectors';
-import { scheduleSelectors } from 'features/schedule';
-import { ensSelectors } from 'features/ens';
 import { Query } from 'components/renderCbs';
+import {
+  getCurrentWindowStart,
+  ICurrentWindowStart,
+  isValidCurrentWindowStart
+} from 'selectors/schedule';
+import { connect } from 'react-redux';
+import { AppState } from 'reducers';
+import { getResolvingDomain } from 'selectors/ens';
 import { CallbackProps } from './WindowStartFieldFactory';
 
 interface StateProps {
-  currentWindowStart: scheduleSelectors.ICurrentWindowStart;
+  currentWindowStart: ICurrentWindowStart;
   isValid: boolean;
   isResolving: boolean;
 }
@@ -42,7 +44,7 @@ class WindowStartInputFactoryClass extends Component<Props> {
 }
 
 export const WindowStartInputFactory = connect((state: AppState) => ({
-  currentWindowStart: scheduleSelectors.getCurrentWindowStart(state),
-  isResolving: ensSelectors.getResolvingDomain(state),
-  isValid: selectors.isValidCurrentWindowStart(state)
+  currentWindowStart: getCurrentWindowStart(state),
+  isResolving: getResolvingDomain(state),
+  isValid: isValidCurrentWindowStart(state)
 }))(WindowStartInputFactoryClass);

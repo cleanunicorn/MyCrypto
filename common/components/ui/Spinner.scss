@@ -35,13 +35,13 @@
 
   &-light {
     & .path {
-      stroke: color(loader-light);
+      stroke: white;
     }
   }
 
   &-dark {
     & .path {
-      stroke: color(loader-dark);
+      stroke: $ether-navy;
     }
   }
 }

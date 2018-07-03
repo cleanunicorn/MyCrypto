@@ -1,28 +1,32 @@
+import { Query } from 'components/renderCbs';
+import { setCurrentWindowSize, TSetCurrentWindowSize } from 'actions/schedule';
+import { WindowSizeInputFactory } from './WindowSizeInputFactory';
 import React from 'react';
 import { connect } from 'react-redux';
-
+import {
+  ICurrentWindowSize,
+  ICurrentScheduleType,
+  getCurrentScheduleType
+} from 'selectors/schedule';
 import { EAC_SCHEDULING_CONFIG } from 'libs/scheduling';
-import { AppState } from 'features/reducers';
-import { scheduleActions, scheduleSelectors } from 'features/schedule';
-import { Query } from 'components/renderCbs';
-import { WindowSizeInputFactory } from './WindowSizeInputFactory';
+import { AppState } from 'reducers';
 
 interface DispatchProps {
-  setCurrentWindowSize: scheduleActions.TSetCurrentWindowSize;
+  setCurrentWindowSize: TSetCurrentWindowSize;
 }
 
 interface OwnProps {
-  currentScheduleType: scheduleSelectors.ICurrentScheduleType;
+  currentScheduleType: ICurrentScheduleType;
   withProps(props: CallbackProps): React.ReactElement<any> | null;
 }
 
 interface OwnState {
-  selectedScheduleType: scheduleSelectors.ICurrentScheduleType;
+  selectedScheduleType: ICurrentScheduleType;
 }
 
 export interface CallbackProps {
-  currentWindowSize: scheduleSelectors.ICurrentWindowSize;
-  currentScheduleType: scheduleSelectors.ICurrentScheduleType;
+  currentWindowSize: ICurrentWindowSize;
+  currentScheduleType: ICurrentScheduleType;
   isValid: boolean;
   readOnly: boolean;
   onChange(ev: React.FormEvent<HTMLInputElement>): void;
@@ -77,9 +81,9 @@ class WindowSizeFieldFactoryClass extends React.Component<Props, State> {
 
 const WindowSizeFieldFactory = connect(
   (state: AppState) => ({
-    currentScheduleType: scheduleSelectors.getCurrentScheduleType(state)
+    currentScheduleType: getCurrentScheduleType(state)
   }),
-  { setCurrentWindowSize: scheduleActions.setCurrentWindowSize }
+  { setCurrentWindowSize }
 )(WindowSizeFieldFactoryClass);
 
 interface DefaultWindowSizeFieldProps {

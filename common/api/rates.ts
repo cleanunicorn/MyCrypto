@@ -1,5 +1,4 @@
 import { handleJSONResponse } from 'api/utils';
-
 interface IRateSymbols {
   symbols: {
     all: TAllSymbols;

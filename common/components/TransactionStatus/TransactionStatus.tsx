@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import translate from 'translations';
-import { NetworkConfig } from 'types/network';
-import { TransactionState } from 'types/transactions';
-import { AppState } from 'features/reducers';
-import { getNetworkConfig } from 'features/config';
-import { transactionsActions, transactionsSelectors } from 'features/transactions';
+import { fetchTransactionData, TFetchTransactionData } from 'actions/transactions';
+import { getTransactionDatas } from 'selectors/transactions';
+import { getNetworkConfig } from 'selectors/config';
 import { Spinner } from 'components/ui';
 import TransactionDataTable from './TransactionDataTable';
+import { AppState } from 'reducers';
+import { NetworkConfig } from 'types/network';
+import { TransactionState } from 'types/transactions';
 import './TransactionStatus.scss';
 
 interface OwnProps {
@@ -21,7 +21,7 @@ interface StateProps {
 }
 
 interface ActionProps {
-  fetchTransactionData: transactionsActions.TFetchTransactionData;
+  fetchTransactionData: TFetchTransactionData;
 }
 
 type Props = OwnProps & StateProps & ActionProps;
@@ -79,11 +79,9 @@ function mapStateToProps(state: AppState, ownProps: OwnProps): StateProps {
   const { txHash } = ownProps;
 
   return {
-    tx: transactionsSelectors.getTransactionDatas(state)[txHash],
+    tx: getTransactionDatas(state)[txHash],
     network: getNetworkConfig(state)
   };
 }
 
-export default connect(mapStateToProps, {
-  fetchTransactionData: transactionsActions.fetchTransactionData
-})(TransactionStatus);
+export default connect(mapStateToProps, { fetchTransactionData })(TransactionStatus);

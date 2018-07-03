@@ -1,21 +1,26 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import BN from 'bn.js';
-
-import { translateRaw } from 'translations';
-import { NetworkConfig } from 'types/network';
-import { Units } from 'libs/units';
-import { AppState } from 'features/reducers';
-import { getOffline, getNetworkConfig } from 'features/config';
+import { connect } from 'react-redux';
 import {
-  transactionFieldsActions,
-  transactionFieldsSelectors,
-  transactionNetworkActions
-} from 'features/transaction';
-import { ratesActions } from 'features/rates';
-import AdvancedGas, { AdvancedOptions } from './components/AdvancedGas';
+  inputGasPrice,
+  TInputGasPrice,
+  inputGasPriceIntent,
+  TInputGasPriceIntent,
+  getNonceRequested,
+  TGetNonceRequested,
+  resetTransactionRequested,
+  TResetTransactionRequested
+} from 'actions/transaction';
+import { fetchCCRatesRequested, TFetchCCRatesRequested } from 'actions/rates';
+import { getNetworkConfig, getOffline } from 'selectors/config';
+import { AppState } from 'reducers';
+import { Units } from 'libs/units';
 import SimpleGas from './components/SimpleGas';
+import AdvancedGas, { AdvancedOptions } from './components/AdvancedGas';
 import './TXMetaDataPanel.scss';
+import { getGasPrice } from 'selectors/transaction';
+import { NetworkConfig } from 'types/network';
+import { translateRaw } from 'translations';
 
 type SliderStates = 'simple' | 'advanced';
 
@@ -26,11 +31,11 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  inputGasPrice: transactionFieldsActions.TInputGasPrice;
-  inputGasPriceIntent: transactionFieldsActions.TInputGasPriceIntent;
-  fetchCCRates: ratesActions.TFetchCCRatesRequested;
-  getNonceRequested: transactionNetworkActions.TGetNonceRequested;
-  resetTransactionRequested: transactionFieldsActions.TResetTransactionRequested;
+  inputGasPrice: TInputGasPrice;
+  inputGasPriceIntent: TInputGasPriceIntent;
+  fetchCCRates: TFetchCCRatesRequested;
+  getNonceRequested: TGetNonceRequested;
+  resetTransactionRequested: TResetTransactionRequested;
 }
 
 // Set default props for props that can't be truthy or falsy
@@ -63,14 +68,9 @@ class TXMetaDataPanel extends React.Component<Props, State> {
     sliderState: (this.props as DefaultProps).initialState
   };
 
-  public componentWillMount() {
-    if (!this.props.offline) {
-      this.props.resetTransactionRequested();
-    }
-  }
-
   public componentDidMount() {
     if (!this.props.offline) {
+      this.props.resetTransactionRequested();
       this.props.fetchCCRates([this.props.network.unit]);
       this.props.getNonceRequested();
     }
@@ -143,16 +143,16 @@ class TXMetaDataPanel extends React.Component<Props, State> {
 
 function mapStateToProps(state: AppState): StateProps {
   return {
-    gasPrice: transactionFieldsSelectors.getGasPrice(state),
+    gasPrice: getGasPrice(state),
     offline: getOffline(state),
     network: getNetworkConfig(state)
   };
 }
 
 export default connect(mapStateToProps, {
-  inputGasPrice: transactionFieldsActions.inputGasPrice,
-  inputGasPriceIntent: transactionFieldsActions.inputGasPriceIntent,
-  fetchCCRates: ratesActions.fetchCCRatesRequested,
-  getNonceRequested: transactionNetworkActions.getNonceRequested,
-  resetTransactionRequested: transactionFieldsActions.resetTransactionRequested
+  inputGasPrice,
+  inputGasPriceIntent,
+  fetchCCRates: fetchCCRatesRequested,
+  getNonceRequested,
+  resetTransactionRequested
 })(TXMetaDataPanel);

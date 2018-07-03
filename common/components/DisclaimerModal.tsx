@@ -1,10 +1,9 @@
 import React from 'react';
-
-import { HELP_ARTICLE } from 'config';
-import translate from 'translations';
-import { HelpLink } from 'components/ui';
 import Modal, { IButton } from 'components/ui/Modal';
+import { HelpLink } from 'components/ui';
+import { HELP_ARTICLE } from 'config';
 import './DisclaimerModal.scss';
+import translate from 'translations';
 
 interface Props {
   isOpen: boolean;

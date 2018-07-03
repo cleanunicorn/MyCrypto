@@ -13,15 +13,11 @@ declare module '@ledgerhq/hw-app-eth' {
      * @returns {Promise<{ publicKey: string; address: string; chainCode?: string }>}
      * @memberof Eth
      */
-    public getAddress<BoolChaincode extends boolean>(
+    public getAddress(
       path: string,
       boolDisplay?: boolean,
-      boolChaincode?: BoolChaincode
-    ): Promise<{
-      publicKey: string;
-      address: string;
-      chainCode: BoolChaincode extends true ? string : undefined;
-    }>;
+      boolChaincode?: boolean
+    ): Promise<{ publicKey: string; address: string; chainCode?: string }>;
 
     /**
      *

@@ -1,6 +1,5 @@
 import React, { HTMLProps } from 'react';
 import classnames from 'classnames';
-
 import './Input.scss';
 
 interface State {

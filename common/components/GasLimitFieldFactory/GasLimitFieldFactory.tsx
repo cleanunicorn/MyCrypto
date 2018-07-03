@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
-import { sanitizeNumericalInput } from 'libs/values';
-import { AppState } from 'features/reducers';
-import { transactionFieldsActions } from 'features/transaction';
-import { scheduleSelectors } from 'features/schedule';
 import { GasQuery } from 'components/renderCbs';
 import { GasLimitInput } from './GasLimitInputFactory';
+import { inputGasLimit, TInputGasLimit } from 'actions/transaction';
+import { connect } from 'react-redux';
+import { AppState } from 'reducers';
+import { sanitizeNumericalInput } from 'libs/values';
+import { getSchedulingToggle } from 'selectors/schedule/fields';
 
 const defaultGasLimit = '21000';
 
@@ -18,7 +17,7 @@ export interface CallBackProps {
 }
 
 interface DispatchProps {
-  inputGasLimit: transactionFieldsActions.TInputGasLimit;
+  inputGasLimit: TInputGasLimit;
 }
 
 interface OwnProps {
@@ -57,9 +56,9 @@ class GasLimitFieldClass extends Component<Props> {
 
 const GasLimitField = connect(
   (state: AppState) => ({
-    scheduling: scheduleSelectors.getSchedulingToggle(state).value
+    scheduling: getSchedulingToggle(state).value
   }),
-  { inputGasLimit: transactionFieldsActions.inputGasLimit }
+  { inputGasLimit }
 )(GasLimitFieldClass);
 
 interface DefaultGasLimitFieldProps {

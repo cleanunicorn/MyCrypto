@@ -1,6 +1,6 @@
 import BN from 'bn.js';
 import { toBuffer, addHexPrefix } from 'ethereumjs-util';
-import { stripHexPrefix } from 'libs/formatters';
+import { stripHexPrefix } from 'libs/values';
 
 type UnitKey = keyof typeof Units;
 type Wei = BN;

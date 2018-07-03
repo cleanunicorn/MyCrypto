@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { isHexString } from 'ethereumjs-util';
-
-import { AppState } from 'features/reducers';
-import { transactionFieldsSelectors } from 'features/transaction';
-import { CallBackProps } from 'components/DataFieldFactory';
 import { Query } from 'components/renderCbs';
+import { getData } from 'selectors/transaction';
+import { connect } from 'react-redux';
+import { AppState } from 'reducers';
+import { CallBackProps } from 'components/DataFieldFactory';
+import { isHexString } from 'ethereumjs-util';
 
 interface OwnProps {
   withProps(props: CallBackProps): React.ReactElement<any> | null;
@@ -33,8 +32,6 @@ class DataInputClass extends Component<Props> {
 }
 
 export const DataInput = connect((state: AppState) => ({
-  data: transactionFieldsSelectors.getData(state),
-  validData:
-    transactionFieldsSelectors.getData(state).raw === '' ||
-    isHexString(transactionFieldsSelectors.getData(state).raw)
+  data: getData(state),
+  validData: getData(state).raw === '' || isHexString(getData(state).raw)
 }))(DataInputClass);

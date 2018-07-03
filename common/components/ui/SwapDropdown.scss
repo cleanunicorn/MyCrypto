@@ -33,7 +33,8 @@ $option-width-main-small: 100%;
         position: absolute;
         top: 50%;
         right: .75rem;
-        @include triangle(8px, color(text-color), down);
+        // transform: translateY(-50%);
+        @include triangle(8px, $text-color, down);
       }
     }
   }
@@ -51,7 +52,7 @@ $option-width-main-small: 100%;
       width: calc(100vw - 30px);
       max-width: $menu-max-width;
       padding: $menu-padding;
-      background: color(control-bg);
+      background: #FFF;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
       border-radius: 4px;
       font-size: 0.8rem;
@@ -63,7 +64,7 @@ $option-width-main-small: 100%;
       right: $menu-offset + 40px;
       width: $menu-triangle-size;
       height: $menu-triangle-size;
-      background: color(control-bg);
+      background: #FFF;
       box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
       transform: rotate(45deg);
     }
@@ -79,8 +80,8 @@ $option-width-main-small: 100%;
   max-width: $option-width;
   padding: $space-sm $space-md;
   text-align: left;
-  background: transparent;
-  color: color(text-color);
+  background: rgba($brand-info, 0);
+  color: $text-color;
   transition: $transition;
 
   @media (max-width: $screen-sm) {
@@ -89,8 +90,8 @@ $option-width-main-small: 100%;
   }
 
   &:hover {
-    color: color(text-color-inverted);
-    background: color(brand-info);
+    color: #FFF;
+    background: rgba($brand-info, 0.9);
   }
 
   &-top {

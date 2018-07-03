@@ -1,9 +1,8 @@
+import classnames from 'classnames';
 import React from 'react';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
-import classnames from 'classnames';
-
-import { NavigationLink } from 'config';
 import translate, { translateRaw } from 'translations';
+import { NavigationLink } from 'config';
 
 interface Props extends RouteComponentProps<{}> {
   link: NavigationLink;

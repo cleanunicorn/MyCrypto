@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './Spinner.scss';
 
 type Size = 'x1' | 'x2' | 'x3' | 'x4' | 'x5';

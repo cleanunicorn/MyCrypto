@@ -1,31 +1,37 @@
 import React from 'react';
 import { connect, MapStateToProps } from 'react-redux';
 import classnames from 'classnames';
-
+import { AppState } from 'reducers';
 import translate, { translateRaw } from 'translations';
-import { AppState } from 'features/reducers';
-import { getChecksumAddressFn } from 'features/config';
 import {
-  addressBookConstants,
-  addressBookActions,
-  addressBookSelectors
-} from 'features/addressBook';
+  changeAddressLabelEntry,
+  TChangeAddressLabelEntry,
+  saveAddressLabelEntry,
+  TSaveAddressLabelEntry,
+  removeAddressLabelEntry,
+  TRemoveAddressLabelEntry
+} from 'actions/addressBook';
+import {
+  getAddressLabels,
+  getLabelAddresses,
+  getAddressLabelRows,
+  getAddressBookTableEntry
+} from 'selectors/addressBook';
 import { Input, Identicon } from 'components/ui';
 import AddressBookTableRow from './AddressBookTableRow';
 import './AddressBookTable.scss';
 
 interface DispatchProps {
-  changeAddressLabelEntry: addressBookActions.TChangeAddressLabelEntry;
-  saveAddressLabelEntry: addressBookActions.TSaveAddressLabelEntry;
-  removeAddressLabelEntry: addressBookActions.TRemoveAddressLabelEntry;
+  changeAddressLabelEntry: TChangeAddressLabelEntry;
+  saveAddressLabelEntry: TSaveAddressLabelEntry;
+  removeAddressLabelEntry: TRemoveAddressLabelEntry;
 }
 
 interface StateProps {
-  rows: ReturnType<typeof addressBookSelectors.getAddressLabelRows>;
-  entry: ReturnType<typeof addressBookSelectors.getAddressBookTableEntry>;
-  addressLabels: ReturnType<typeof addressBookSelectors.getAddressLabels>;
-  labelAddresses: ReturnType<typeof addressBookSelectors.getLabelAddresses>;
-  toChecksumAddress: ReturnType<typeof getChecksumAddressFn>;
+  rows: ReturnType<typeof getAddressLabelRows>;
+  entry: ReturnType<typeof getAddressBookTableEntry>;
+  addressLabels: ReturnType<typeof getAddressLabels>;
+  labelAddresses: ReturnType<typeof getLabelAddresses>;
 }
 
 type Props = DispatchProps & StateProps;
@@ -37,6 +43,8 @@ interface State {
   labelTouched: boolean;
   labelBlurred: boolean;
 }
+
+export const ADDRESS_BOOK_TABLE_ID: string = 'ADDRESS_BOOK_TABLE_ID';
 
 class AddressBookTable extends React.Component<Props, State> {
   public state: State = {
@@ -172,7 +180,7 @@ class AddressBookTable extends React.Component<Props, State> {
       this.labelInput.focus();
     }
 
-    this.props.saveAddressLabelEntry(addressBookConstants.ADDRESS_BOOK_TABLE_ID);
+    this.props.saveAddressLabelEntry(ADDRESS_BOOK_TABLE_ID);
 
     if (!addressError && !labelError) {
       this.clearFieldStatuses();
@@ -192,8 +200,7 @@ class AddressBookTable extends React.Component<Props, State> {
 
   private makeLabelRow = (row: any, index: number) => {
     const { editingRow } = this.state;
-    const { id, label, temporaryLabel, labelError } = row;
-    const address = this.props.toChecksumAddress(row.address);
+    const { id, address, label, temporaryLabel, labelError } = row;
     const isEditing = index === editingRow;
     const onChange = (newLabel: string) =>
       this.props.changeAddressLabelEntry({
@@ -255,7 +262,7 @@ class AddressBookTable extends React.Component<Props, State> {
     const label = entry.temporaryLabel || '';
 
     this.props.changeAddressLabelEntry({
-      id: addressBookConstants.ADDRESS_BOOK_TABLE_ID,
+      id: ADDRESS_BOOK_TABLE_ID,
       address,
       label
     });
@@ -280,7 +287,7 @@ class AddressBookTable extends React.Component<Props, State> {
     const label = e.target.value;
 
     this.props.changeAddressLabelEntry({
-      id: addressBookConstants.ADDRESS_BOOK_TABLE_ID,
+      id: ADDRESS_BOOK_TABLE_ID,
       address,
       label
     });
@@ -298,17 +305,16 @@ class AddressBookTable extends React.Component<Props, State> {
 }
 
 const mapStateToProps: MapStateToProps<StateProps, {}, AppState> = state => ({
-  rows: addressBookSelectors.getAddressLabelRows(state),
-  entry: addressBookSelectors.getAddressBookTableEntry(state),
-  addressLabels: addressBookSelectors.getAddressLabels(state),
-  labelAddresses: addressBookSelectors.getLabelAddresses(state),
-  toChecksumAddress: getChecksumAddressFn(state)
+  rows: getAddressLabelRows(state),
+  entry: getAddressBookTableEntry(state),
+  addressLabels: getAddressLabels(state),
+  labelAddresses: getLabelAddresses(state)
 });
 
 const mapDispatchToProps: DispatchProps = {
-  changeAddressLabelEntry: addressBookActions.changeAddressLabelEntry,
-  saveAddressLabelEntry: addressBookActions.saveAddressLabelEntry,
-  removeAddressLabelEntry: addressBookActions.removeAddressLabelEntry
+  changeAddressLabelEntry,
+  saveAddressLabelEntry,
+  removeAddressLabelEntry
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddressBookTable);

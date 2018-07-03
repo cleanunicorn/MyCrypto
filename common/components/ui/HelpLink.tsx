@@ -1,7 +1,6 @@
 import React from 'react';
-
-import { HELP_ARTICLE, knowledgeBaseURL } from 'config';
 import NewTabLink, { AAttributes } from './NewTabLink';
+import { HELP_ARTICLE, knowledgeBaseURL } from 'config';
 
 interface Props {
   article?: HELP_ARTICLE;

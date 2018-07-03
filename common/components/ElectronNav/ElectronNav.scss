@@ -18,9 +18,9 @@ $back-spacing: 10px;
     position: sticky;
     top: 0;
     padding-top: $branding-spacing-top;
-    background: color(control-bg);
+    background: #FFF;
     z-index: 1;
-    border-bottom: 1px solid shade-dark(0.1);
+    border-bottom: 1px solid $gray-lighter;
 
     .is-osx & {
       padding-top: $electron-osx-control-spacing + $branding-spacing-top - 5;
@@ -34,15 +34,6 @@ $back-spacing: 10px;
       background-position: center;
       background-repeat: no-repeat;
       background-size: auto 100%;
-      cursor: pointer;
-
-      @include theme(dark) {
-        background-image: url('~assets/images/logo-mycrypto.svg');
-      }
-
-      &:hover {
-        opacity: 0.8;
-      }
     }
 
     &-beta {
@@ -50,16 +41,12 @@ $back-spacing: 10px;
       letter-spacing: 4px;
       height: 20px;
       line-height: 20px;
-      color: color(text-color-inverted);
-      background: color(brand-info);
+      color: #FFF;
+      background: $brand-info;
       text-transform: uppercase;
       font-size: 8px;
       opacity: 0.8;
       pointer-events: none;
-
-      @include theme(dark) {
-        opacity: 1;
-      }
     }
   }
 
@@ -82,7 +69,7 @@ $back-spacing: 10px;
       display: flex;
       align-items: center;
       width: 100%;
-      color: shade-dark(0.5);
+      color: $gray-light;
       font-size: 12px;
       padding: 6px 0;
 
@@ -92,7 +79,7 @@ $back-spacing: 10px;
       }
 
       &:hover {
-        color: shade-dark(0.7);
+        color: $link-hover-color;
       }
     }
   }
@@ -113,9 +100,9 @@ $back-spacing: 10px;
       width: 100%;
       text-align: left;
       padding: $back-spacing 0 8px $back-spacing;
-      color: shade-dark(0.2);
-      border-bottom: 1px solid shade-dark(0.05);
-      background: color(control-bg);
+      border-bottom: 1px solid $gray-lighter;
+      color: rgba($text-color, 0.4);
+      background: #FFF;
 
       .is-osx & {
         padding-top: $electron-osx-control-spacing + $back-spacing;
@@ -127,7 +114,7 @@ $back-spacing: 10px;
       }
 
       &:hover {
-        color: color(brand-primary);
+        color: $link-hover-color;
       }
     }
   }
@@ -144,18 +131,18 @@ $back-spacing: 10px;
     height: 48px;
     line-height: 48px;
     padding: 0 0 0 10px;
-    border-bottom: 1px solid shade-dark(0.08);
-    color: color(text-color);
+    border-bottom: 1px solid $gray-lighter;
+    color: $text-color;
     font-size: 14px;
     font-weight: normal;
 
     &.is-active {
-      color: color(link-color);
-      background: shade-dark(0.03);
+      color: $link-color;
+      background: $gray-lightest;
     }
 
     &:hover {
-      color: color(link-hover-color);
+      color: $link-hover-color;
     }
 
     &-icon {

@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
+import { setScheduleTimezone, TSetScheduleTimezone } from 'actions/schedule';
+import { getCurrentScheduleTimezone, ICurrentScheduleTimezone } from 'selectors/schedule';
+import { AppState } from 'reducers';
+import { Query } from 'components/renderCbs';
 import { connect } from 'react-redux';
 import { Option } from 'react-select';
+import { Dropdown } from 'components/ui';
 import moment from 'moment';
 import 'moment-timezone';
-
 import translate from 'translations';
-import { scheduleActions, scheduleSelectors } from 'features/schedule';
-import { AppState } from 'features/reducers';
-import { Query } from 'components/renderCbs';
-import { Dropdown } from 'components/ui';
 
 interface DispatchProps {
-  setScheduleTimezone: scheduleActions.TSetScheduleTimezone;
+  setScheduleTimezone: TSetScheduleTimezone;
 }
 
 interface StateProps {
-  currentScheduleTimezone: scheduleSelectors.ICurrentScheduleTimezone;
+  currentScheduleTimezone: ICurrentScheduleTimezone;
 }
 
 type Props = DispatchProps & StateProps;
@@ -65,7 +65,7 @@ class ScheduleTimezoneDropDownClass extends Component<Props> {
 
 export const ScheduleTimezoneDropDown = connect(
   (state: AppState) => ({
-    currentScheduleTimezone: scheduleSelectors.getCurrentScheduleTimezone(state)
+    currentScheduleTimezone: getCurrentScheduleTimezone(state)
   }),
-  { setScheduleTimezone: scheduleActions.setScheduleTimezone }
+  { setScheduleTimezone }
 )(ScheduleTimezoneDropDownClass);

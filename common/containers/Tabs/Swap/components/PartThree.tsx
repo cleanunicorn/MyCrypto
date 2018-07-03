@@ -1,7 +1,4 @@
-import React, { PureComponent } from 'react';
-
-import { notificationsActions } from 'features/notifications';
-import { SwapInput } from 'features/swap/types';
+import { TShowNotification } from 'actions/notifications';
 import {
   TRestartSwap,
   TStartPollBityOrderStatus,
@@ -10,7 +7,9 @@ import {
   TStopPollBityOrderStatus,
   TStopPollShapeshiftOrderStatus,
   TStartOrderTimerSwap
-} from 'features/swap/actions';
+} from 'actions/swap';
+import { SwapInput } from 'reducers/swap/types';
+import React, { PureComponent } from 'react';
 import BitcoinQR from './BitcoinQR';
 import PaymentInfo from './PaymentInfo';
 import SwapProgress from './SwapProgress';
@@ -37,7 +36,7 @@ interface ReduxActionProps {
   startPollShapeshiftOrderStatus: TStartPollShapeshiftOrderStatus;
   stopPollShapeshiftOrderStatus: TStopPollShapeshiftOrderStatus;
   stopOrderTimerSwap: TStopOrderTimerSwap;
-  showNotificationWithComponent: notificationsActions.TShowNotificationWithComponent;
+  showNotification: TShowNotification;
 }
 
 export default class PartThree extends PureComponent<ReduxActionProps & ReduxStateProps, {}> {
@@ -69,18 +68,18 @@ export default class PartThree extends PureComponent<ReduxActionProps & ReduxSta
       destinationAddress,
       outputTx,
       // ACTIONS
-      showNotificationWithComponent
+      showNotification
     } = this.props;
 
     const SwapProgressProps = {
-      destinationId: destination.label,
       originId: origin.label,
-      destinationAddress,
-      outputTx,
+      destinationId: destination.label,
       provider,
       bityOrderStatus,
       shapeshiftOrderStatus,
-      showNotificationWithComponent
+      showNotification,
+      destinationAddress,
+      outputTx
     };
 
     const PaymentInfoProps = {

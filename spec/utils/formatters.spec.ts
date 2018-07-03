@@ -1,7 +1,11 @@
-import configuredStore from 'features/store';
+import { configuredStore } from 'store';
 import { Wei } from 'libs/units';
-import { toFixedIfLarger, formatNumber, formatGasLimit, formatMnemonic } from 'utils/formatters';
-
+import {
+  toFixedIfLarger,
+  formatNumber,
+  formatGasLimit,
+  formatMnemonic
+} from '../../common/utils/formatters';
 configuredStore.getState();
 
 describe('toFixedIfLarger', () => {

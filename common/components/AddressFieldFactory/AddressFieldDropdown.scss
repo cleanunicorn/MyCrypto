@@ -6,9 +6,9 @@
   position: absolute;
   top: calc(100% - #{$space});
   width: 100%;
-  border: 1px solid color(gray-lighter);
+  border: 1px solid $gray-lighter;
   border-top: none;
-  background: color(component-active-color);
+  background: $component-active-color;
   z-index: 1;
   list-style-type: none;
   margin: 0;
@@ -24,7 +24,7 @@
 
     &:hover {
       cursor: pointer;
-      background: color(gray-lightest);
+      background: $gray-lightest;
     }
 
     &-identicon {
@@ -70,7 +70,7 @@
     }
 
     &--active {
-      background: color(gray-lighter);
+      background: $gray-lighter;
     }
   }
 }

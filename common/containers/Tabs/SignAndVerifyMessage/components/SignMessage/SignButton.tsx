@@ -1,11 +1,10 @@
 import React from 'react';
-
 import translate from 'translations';
-import { messageActions } from 'features/message';
+import { TSignMessageRequested } from 'actions/message';
 
 interface Props {
   message: string;
-  signMessageRequested: messageActions.TSignMessageRequested;
+  signMessageRequested: TSignMessageRequested;
 }
 
 export default class SignMessageButton extends React.Component<Props, {}> {

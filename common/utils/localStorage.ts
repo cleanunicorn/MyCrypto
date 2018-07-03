@@ -1,8 +1,7 @@
 import { sha256 } from 'ethereumjs-util';
-
-import { AppState } from 'features/reducers';
-import { SwapState } from 'features/swap/types';
+import { State as SwapState } from 'reducers/swap';
 import { IWallet, WalletConfig } from 'libs/wallet';
+import { AppState } from 'reducers';
 
 export const REDUX_STATE = 'REDUX_STATE';
 export const ONBOARD_LOCAL_STORAGE_KEY = 'onboardStatus';

@@ -1,10 +1,9 @@
 import React from 'react';
-
-import { donationAddressMap } from 'config';
-import translate from 'translations';
-import TabSection from 'containers/TabSection';
 import { NameInput, NameResolve } from './components';
+import TabSection from 'containers/TabSection';
+import { donationAddressMap } from 'config';
 import './index.scss';
+import translate from 'translations';
 
 export default class ENSClass extends React.Component<{}> {
   public render() {

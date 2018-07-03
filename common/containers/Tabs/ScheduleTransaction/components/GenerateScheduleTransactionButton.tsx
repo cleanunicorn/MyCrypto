@@ -1,5 +1,4 @@
 import React from 'react';
-
 import translate from 'translations';
 import { ScheduleTransactionFactory } from './ScheduleTransactionFactory';
 

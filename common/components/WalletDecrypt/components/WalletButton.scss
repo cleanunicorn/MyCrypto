@@ -21,7 +21,7 @@
   padding: 25px 15px;
   margin: 0 $space-md $space;
 
-  background: color(control-bg);
+  background: #fff;
   box-shadow: 0 1px 4px rgba(#000, 0.2);
   border-radius: 8px;
   text-align: center;
@@ -44,7 +44,7 @@
       box-shadow: 0 1px 4px rgba(#000, 0.12), 0 4px 6px rgba(#000, 0.12);
 
       .WalletButton-title {
-        color: color(brand-primary);
+        color: $brand-primary;
 
         &-icon {
           opacity: 1;
@@ -83,28 +83,18 @@
       margin-right: 8px;
       max-height: 26px;
       opacity: 0.8;
-
-      @include theme(dark) {
-        opacity: 1;
-        filter: invert(1);
-
-        // Kind of hacky, but we don't want to invert metamask
-        &[src*="metamask"] {
-          filter: none;
-        }
-      }
     }
   }
 
   &-description {
-    color: shade-dark(0.65);
+    color: $gray;
     font-size: $font-size-small;
     font-weight: lighter;
   }
 
   &-example {
     font-size: $font-size-xs;
-    color: color(brand-danger-light);
+    color: rgba($brand-danger, 0.7);
     @include ellipsis;
   }
 
@@ -128,20 +118,20 @@
         }
 
         &-shield {
-          color: color(brand-primary);
+          color: $brand-primary;
         }
 
         &-exclamation-triangle {
-          color: color(brand-warning);
+          color: $brand-warning;
         }
 
         &-question-circle,
         &-eye {
-          color: shade-dark(0.5);
+          color: #666;
         }
 
         &-question-circle:hover {
-          color: color(brand-primary);
+          color: $brand-primary;
         }
       }
     }
@@ -208,7 +198,8 @@
         margin: 0;
         width: 48px;
         text-align: center;
-        border-left: 1px solid rgba(0, 0, 0, 0.1);
+        border-left: 1px solid #f4f4f4;
+        background: #fefefe;
 
         a {
           position: absolute;

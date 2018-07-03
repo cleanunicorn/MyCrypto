@@ -1,8 +1,7 @@
 import React from 'react';
-
 import translate from 'translations';
-import onboardIconNine from 'assets/images/onboarding/slide-09.svg';
 import OnboardSlide from './OnboardSlide';
+import onboardIconNine from 'assets/images/onboarding/slide-09.svg';
 
 interface Props {
   site?: string;

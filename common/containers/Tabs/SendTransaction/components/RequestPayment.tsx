@@ -1,26 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import BN from 'bn.js';
-
+import { AppState } from 'reducers';
 import translate from 'translations';
 import { IWallet } from 'libs/wallet';
-import { validPositiveNumber, validDecimal } from 'libs/validators';
-import { buildEIP681EtherRequest, buildEIP681TokenRequest } from 'libs/values';
-import { ICurrentTo, ICurrentValue } from 'features/types';
-import { AppState } from 'features/reducers';
-import * as derivedSelectors from 'features/selectors';
-import { getNetworkConfig, isNetworkUnit } from 'features/config';
-import {
-  transactionFieldsTypes,
-  transactionFieldsActions,
-  transactionFieldsSelectors,
-  transactionMetaSelectors,
-  transactionActions
-} from 'features/transaction';
-import { AddressField, AmountField, TXMetaDataPanel } from 'components';
 import { QRCode, CodeBlock } from 'components/ui';
-import { NetworkConfig } from 'types/network';
+import { getUnit, getDecimal } from 'selectors/transaction/meta';
+import {
+  getCurrentTo,
+  getCurrentValue,
+  ICurrentTo,
+  ICurrentValue
+} from 'selectors/transaction/current';
+import BN from 'bn.js';
+import { validPositiveNumber, validDecimal } from 'libs/validators';
+import { getGasLimit } from 'selectors/transaction';
+import { AddressField, AmountField, TXMetaDataPanel } from 'components';
+import { SetGasLimitFieldAction } from 'actions/transaction/actionTypes/fields';
+import { buildEIP681EtherRequest, buildEIP681TokenRequest } from 'libs/values';
+import { getNetworkConfig, getSelectedTokenContractAddress, isNetworkUnit } from 'selectors/config';
 import './RequestPayment.scss';
+import {
+  resetTransactionRequested,
+  TResetTransactionRequested,
+  setCurrentTo,
+  TSetCurrentTo
+} from 'actions/transaction';
+import { NetworkConfig } from 'types/network';
 
 interface OwnProps {
   wallet: AppState['wallet']['inst'];
@@ -30,7 +35,7 @@ interface StateProps {
   unit: string;
   currentTo: ICurrentTo;
   currentValue: ICurrentValue;
-  gasLimit: transactionFieldsTypes.SetGasLimitFieldAction['payload'];
+  gasLimit: SetGasLimitFieldAction['payload'];
   networkConfig: NetworkConfig;
   decimal: number;
   tokenContractAddress: string;
@@ -38,8 +43,8 @@ interface StateProps {
 }
 
 interface ActionProps {
-  resetTransactionRequested: transactionFieldsActions.TResetTransactionRequested;
-  setCurrentTo: transactionActions.TSetCurrentTo;
+  resetTransactionRequested: TResetTransactionRequested;
+  setCurrentTo: TSetCurrentTo;
 }
 
 type Props = OwnProps & StateProps & ActionProps;
@@ -102,7 +107,6 @@ class RequestPayment extends React.Component<Props, {}> {
                 hasUnitDropdown={true}
                 showAllTokens={true}
                 customValidator={isValidAmount(decimal)}
-                showInvalidWithoutValue={true}
               />
             </div>
           </div>
@@ -187,18 +191,17 @@ class RequestPayment extends React.Component<Props, {}> {
 
 function mapStateToProps(state: AppState): StateProps {
   return {
-    unit: derivedSelectors.getUnit(state),
-    currentTo: derivedSelectors.getCurrentTo(state),
-    currentValue: derivedSelectors.getCurrentValue(state),
-    gasLimit: transactionFieldsSelectors.getGasLimit(state),
+    unit: getUnit(state),
+    currentTo: getCurrentTo(state),
+    currentValue: getCurrentValue(state),
+    gasLimit: getGasLimit(state),
     networkConfig: getNetworkConfig(state),
-    decimal: transactionMetaSelectors.getDecimal(state),
-    tokenContractAddress: derivedSelectors.getSelectedTokenContractAddress(state),
-    isNetworkUnit: isNetworkUnit(state, derivedSelectors.getUnit(state))
+    decimal: getDecimal(state),
+    tokenContractAddress: getSelectedTokenContractAddress(state),
+    isNetworkUnit: isNetworkUnit(state, getUnit(state))
   };
 }
 
-export default connect(mapStateToProps, {
-  resetTransactionRequested: transactionFieldsActions.resetTransactionRequested,
-  setCurrentTo: transactionActions.setCurrentTo
-})(RequestPayment);
+export default connect(mapStateToProps, { resetTransactionRequested, setCurrentTo })(
+  RequestPayment
+);

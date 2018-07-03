@@ -1,7 +1,7 @@
 import BN from 'bn.js';
 import { IHexStrTransaction } from 'libs/transaction';
 import { Wei, TokenValue } from 'libs/units';
-import { stripHexPrefix } from 'libs/formatters';
+import { stripHexPrefix } from 'libs/values';
 import { hexToNumber } from 'utils/formatters';
 import { INode, TxObj } from '../INode';
 import RPCClient from './client';

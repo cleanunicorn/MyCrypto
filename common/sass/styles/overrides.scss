@@ -1,5 +1,8 @@
 // This contains all of the bootstrap style overrides we do. Files should
 // correspond to the bootstrap filename, and be placed in the overrides/ folder
+@import './overrides/alerts';
+@import './overrides/buttons';
+@import './overrides/button-groups';
 @import './overrides/dropdowns';
 @import './overrides/forms';
 @import './overrides/grid';
@@ -8,7 +11,9 @@
 @import './overrides/tables';
 @import './overrides/inputs';
 
-// Other library overrides
+// Other overrides
 @import './overrides/react-select';
 @import './overrides/react-datetime';
+
+// And an override for rc-slider
 @import './overrides/rc-slider';

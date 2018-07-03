@@ -1,13 +1,12 @@
 import Tx from 'ethereumjs-tx';
 import { bufferToHex } from 'ethereumjs-util';
-
-import { translateRaw } from 'translations';
 import { Wei } from 'libs/units';
-import { isValidAddress } from 'libs/validators';
+import { isValidETHAddress } from 'libs/validators';
 import { IFullWallet } from 'libs/wallet';
-import { hexEncodeQuantity, hexEncodeData } from 'libs/nodes/rpc/utils';
-import { TransactionFieldValues } from 'features/types';
+import { translateRaw } from 'translations';
 import { ITransaction, IHexStrTransaction } from '../typings';
+import { hexEncodeQuantity, hexEncodeData } from 'libs/nodes/rpc/utils';
+import { TransactionFieldValues } from 'selectors/transaction/helpers';
 
 // we dont include the signature paramaters because web3 transactions are unsigned
 const computeIndexingHash = (tx: Buffer) => bufferToHex(makeTransaction(tx).hash(false));
@@ -70,7 +69,7 @@ const gasParamsInRange = (t: ITransaction) => {
 };
 
 const validAddress = (t: ITransaction) => {
-  if (!isValidAddress(bufferToHex(t.to), t.chainId)) {
+  if (!isValidETHAddress(bufferToHex(t.to))) {
     throw Error(translateRaw('ERROR_5'));
   }
 };

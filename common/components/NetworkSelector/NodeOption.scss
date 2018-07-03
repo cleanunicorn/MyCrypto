@@ -18,40 +18,35 @@ $radio-size: 10px;
     &:before {
       content: '';
       display: inline-block;
-      border: 1px solid shade-dark(0.15);
+      border: 1px solid rgba($gray-light, 0.4);
       border-radius: 100%;
       height: $radio-size;
       width: $radio-size;
       margin-right: $space-xs;
-      background: color(control-bg);
-      box-shadow: 0 0 0 1px color(control-bg) inset;
+      background: #FFF;
+      box-shadow: 0 0 0 1px #FFF inset;
     }
 
     &:hover {
       &:before {
-        border-color: shade-dark(0.3);
+        border-color: rgba($gray-light, 0.8);
       }
     }
 
     &.is-selected {
       &:before {
-        border-color: color(brand-primary);
-        background: color(brand-primary);
+        border-color: $brand-primary;
+        background: $brand-primary;
       }
     }
 
     &.is-auto-selected {
       &:before {
-        background: color(brand-primary);
-        opacity: 0.3;
-
-        &:hover {
-          opacity: 0.8;
-        }
+        background: rgba($brand-primary, 0.3);
       }
 
       &:hover:before {
-        opacity: 0.8;
+        background: rgba($brand-primary, 0.8);
       }
     }
   }
@@ -62,7 +57,7 @@ $radio-size: 10px;
     font-size: 14px;
 
     &:hover {
-      color: color(brand-danger);
+      color: $brand-danger;
       opacity: 0.8;
     }
   }

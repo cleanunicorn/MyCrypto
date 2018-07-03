@@ -1,12 +1,10 @@
 import { toChecksumAddress, isValidPrivate } from 'ethereumjs-util';
-import { isValidChecksumAddress as isValidChecksumRSKAddress } from 'rskjs-util';
+import { stripHexPrefix } from 'libs/values';
 import WalletAddressValidator from 'wallet-address-validator';
+import { normalise } from './ens';
 import { Validator } from 'jsonschema';
-import BN from 'bn.js';
-
-import { dPathRegex, ETC_LEDGER, ETH_SINGULAR } from 'config/dpaths';
+import { JsonRpcResponse } from './nodes/rpc/types';
 import { translateRaw } from 'translations';
-import { stripHexPrefix } from 'libs/formatters';
 import { isPositiveInteger } from 'utils/helpers';
 import {
   GAS_LIMIT_LOWER_BOUND,
@@ -14,22 +12,12 @@ import {
   GAS_PRICE_GWEI_LOWER_BOUND,
   GAS_PRICE_GWEI_UPPER_BOUND
 } from 'config/constants';
-import { JsonRpcResponse } from './nodes/rpc/types';
-import { normalise } from './ens';
+import { dPathRegex, ETC_LEDGER, ETH_SINGULAR } from 'config/dpaths';
 import { EAC_SCHEDULING_CONFIG } from './scheduling';
+import BN from 'bn.js';
 
-export function getIsValidAddressFunction(chainId: number) {
-  if (chainId === 30 || chainId === 31) {
-    return (address: string) => isValidRSKAddress(address, chainId);
-  }
-  return isValidETHAddress;
-}
-
-export function isValidAddress(address: string, chainId: number) {
-  return getIsValidAddressFunction(chainId)(address);
-}
-
-function isValidETHLikeAddress(address: string, extraChecks?: () => boolean): boolean {
+// FIXME we probably want to do checksum checks sideways
+export function isValidETHAddress(address: string): boolean {
   if (address === '0x0000000000000000000000000000000000000000') {
     return false;
   }
@@ -40,16 +28,8 @@ function isValidETHLikeAddress(address: string, extraChecks?: () => boolean): bo
   } else if (/^(0x)?[0-9a-f]{40}$/.test(address) || /^(0x)?[0-9A-F]{40}$/.test(address)) {
     return true;
   } else {
-    return extraChecks ? extraChecks() : false;
+    return isChecksumAddress(address);
   }
-}
-
-export function isValidETHAddress(address: string): boolean {
-  return isValidETHLikeAddress(address, () => isChecksumAddress(address));
-}
-
-export function isValidRSKAddress(address: string, chainId: number): boolean {
-  return isValidETHLikeAddress(address, () => isValidChecksumRSKAddress(address, chainId));
 }
 
 export const isCreationAddress = (address: string): boolean =>
@@ -74,9 +54,7 @@ export function isValidENSorEtherAddress(address: string): boolean {
 
 export function isValidENSName(str: string) {
   try {
-    return (
-      str.length > 6 && !str.includes('.') && normalise(str) !== '' && str.substring(0, 2) !== '0x'
-    );
+    return str.length > 6 && normalise(str) !== '' && str.substring(0, 2) !== '0x';
   } catch (e) {
     return false;
   }
@@ -133,20 +111,11 @@ export const validPositiveNumber = (num: number) => validNumber(num) && num !== 
 
 export const validDecimal = (input: string, decimal: number) => {
   const arr = input.split('.');
-
-  // Only a single decimal can exist.
-  if (arr.length > 2) {
-    return false;
-  }
-
   const fractionPortion = arr[1];
-
   if (!fractionPortion || fractionPortion.length === 0) {
     return true;
   }
-
   const decimalLength = fractionPortion.length;
-
   return decimalLength <= decimal;
 };
 
@@ -370,16 +339,15 @@ export function isValidAddressLabel(
   address: string,
   label: string,
   addresses: { [address: string]: string },
-  labels: { [label: string]: string },
-  chainId: number
+  labels: { [label: string]: string }
 ) {
-  const addressAlreadyExists = !!addresses[address.toLowerCase()];
+  const addressAlreadyExists = !!addresses[address];
   const labelAlreadyExists = !!labels[label];
   const result: { isValid: boolean; addressError?: string; labelError?: string } = {
     isValid: true
   };
 
-  if (!isValidAddress(address, chainId)) {
+  if (!isValidETHAddress(address)) {
     result.addressError = translateRaw('INVALID_ADDRESS');
   }
 

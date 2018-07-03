@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
+import { setCurrentScheduleTimestamp, TSetCurrentScheduleTimestamp } from 'actions/schedule';
 import { connect } from 'react-redux';
+import translate from 'translations';
+import {
+  getCurrentScheduleTimestamp,
+  ICurrentScheduleTimestamp,
+  isValidCurrentScheduleTimestamp
+} from 'selectors/schedule';
+import { AppState } from 'reducers';
 import DateTime from 'react-datetime';
 import moment from 'moment';
-
-import { AppState } from 'features/reducers';
 import { EAC_SCHEDULING_CONFIG } from 'libs/scheduling';
-import translate from 'translations';
-import { scheduleActions, scheduleSelectors, scheduleHelpers } from 'features/schedule';
 
 interface DispatchProps {
-  setCurrentScheduleTimestamp: scheduleActions.TSetCurrentScheduleTimestamp;
+  setCurrentScheduleTimestamp: TSetCurrentScheduleTimestamp;
 }
 
 interface StateProps {
-  currentScheduleTimestamp: scheduleHelpers.ICurrentScheduleTimestamp;
+  currentScheduleTimestamp: ICurrentScheduleTimestamp;
   isValid: boolean;
 }
 
@@ -57,8 +61,8 @@ class ScheduleTimestampClass extends Component<Props> {
 
 export const ScheduleTimestampField = connect(
   (state: AppState) => ({
-    currentScheduleTimestamp: scheduleSelectors.getCurrentScheduleTimestamp(state),
-    isValid: scheduleSelectors.isValidCurrentScheduleTimestamp(state)
+    currentScheduleTimestamp: getCurrentScheduleTimestamp(state),
+    isValid: isValidCurrentScheduleTimestamp(state)
   }),
-  { setCurrentScheduleTimestamp: scheduleActions.setCurrentScheduleTimestamp }
+  { setCurrentScheduleTimestamp }
 )(ScheduleTimestampClass);

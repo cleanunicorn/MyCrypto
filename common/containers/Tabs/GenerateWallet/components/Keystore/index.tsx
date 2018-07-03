@@ -1,1 +1,2 @@
-export { default } from './Keystore';
+import Keystore from './Keystore';
+export default Keystore;

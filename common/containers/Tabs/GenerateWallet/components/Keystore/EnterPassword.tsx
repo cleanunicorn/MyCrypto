@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import zxcvbn, { ZXCVBNResult } from 'zxcvbn';
-
-import { MINIMUM_PASSWORD_LENGTH } from 'config';
 import translate, { translateRaw } from 'translations';
-import { TogglablePassword } from 'components';
+import { MINIMUM_PASSWORD_LENGTH } from 'config';
 import { Spinner } from 'components/ui';
 import Template from '../Template';
 import './EnterPassword.scss';
+import { TogglablePassword } from 'components';
 
 interface Props {
   isGenerating: boolean;
@@ -19,7 +18,6 @@ interface State {
   passwordValidation: ZXCVBNResult | null;
   feedback: string;
 }
-
 export default class EnterPassword extends Component<Props, State> {
   public state: State = {
     password: '',

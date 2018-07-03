@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-import translate, { translateRaw } from 'translations';
+import translate from 'translations';
+import { showNotification, TShowNotification } from 'actions/notifications';
 import { verifySignedMessage, ISignedMessage } from 'libs/signing';
-import { notificationsActions } from 'features/notifications';
-import { TextArea } from 'components/ui';
 import './index.scss';
+import { TextArea } from 'components/ui';
 
 interface Props {
-  showNotification: notificationsActions.TShowNotification;
+  showNotification: TShowNotification;
 }
 
 interface State {
@@ -91,10 +90,10 @@ export class VerifyMessage extends Component<Props, State> {
         verifiedAddress: address,
         verifiedMessage: msg
       });
-      this.props.showNotification('success', translateRaw('SUCCESS_7'));
+      this.props.showNotification('success', translate('SUCCESS_7'));
     } catch (err) {
       this.clearVerifiedData();
-      this.props.showNotification('danger', translateRaw('ERROR_38'));
+      this.props.showNotification('danger', translate('ERROR_38'));
     }
   };
 
@@ -118,5 +117,5 @@ export class VerifyMessage extends Component<Props, State> {
 }
 
 export default connect(null, {
-  showNotification: notificationsActions.showNotification
+  showNotification
 })(VerifyMessage);

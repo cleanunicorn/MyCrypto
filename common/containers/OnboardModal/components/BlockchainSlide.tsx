@@ -1,8 +1,7 @@
 import React from 'react';
-
 import translate from 'translations';
-import onboardIconFour from 'assets/images/onboarding/slide-04.svg';
 import OnboardSlide from './OnboardSlide';
+import onboardIconFour from 'assets/images/onboarding/slide-04.svg';
 
 const BlockchainSlide = () => {
   const header = translate('ONBOARD_BLOCKCHAIN_TITLE');

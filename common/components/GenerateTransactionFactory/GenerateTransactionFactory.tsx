@@ -1,21 +1,22 @@
+import { WithSigner } from './Container';
+import EthTx from 'ethereumjs-tx';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import EthTx from 'ethereumjs-tx';
-import { addHexPrefix } from 'ethereumjs-util';
-
-import translate from 'translations';
-import { getTransactionFields, makeTransaction } from 'libs/transaction';
-import { AppState } from 'features/reducers';
-import * as derivedSelectors from 'features/selectors';
+import { AppState } from 'reducers';
 import {
-  transactionNetworkSelectors,
-  transactionSignSelectors,
-  transactionSelectors
-} from 'features/transaction';
-import { walletSelectors } from 'features/wallet';
+  getTransaction,
+  isNetworkRequestPending,
+  isValidGasPrice,
+  isValidGasLimit,
+  getSignedTx,
+  getSerializedTransaction
+} from 'selectors/transaction';
+import { getWalletType, IWalletType } from 'selectors/wallet';
 import { OfflineBroadcast } from 'components/SendButtonFactory/OfflineBroadcast';
+import { getTransactionFields, makeTransaction } from 'libs/transaction';
+import translate from 'translations';
+import { addHexPrefix } from 'ethereumjs-util';
 import { CodeBlock } from 'components/ui';
-import { WithSigner } from './Container';
 
 export interface CallbackProps {
   disabled: boolean;
@@ -25,7 +26,7 @@ export interface CallbackProps {
 
 interface StateProps {
   transaction: EthTx;
-  walletType: walletSelectors.IWalletType;
+  walletType: IWalletType;
   serializedTransaction: AppState['transaction']['sign']['local']['signedTransaction'];
   networkRequestPending: boolean;
   isFullTransaction: boolean;
@@ -101,12 +102,12 @@ export class GenerateTransactionFactoryClass extends Component<Props> {
 }
 
 export const GenerateTransactionFactory = connect((state: AppState) => ({
-  ...derivedSelectors.getTransaction(state),
-  walletType: walletSelectors.getWalletType(state),
-  serializedTransaction: derivedSelectors.getSerializedTransaction(state),
-  networkRequestPending: transactionNetworkSelectors.isNetworkRequestPending(state),
-  isWeb3Wallet: walletSelectors.getWalletType(state).isWeb3Wallet,
-  validGasPrice: transactionSelectors.isValidGasPrice(state),
-  validGasLimit: transactionSelectors.isValidGasLimit(state),
-  signedTx: !!transactionSignSelectors.getSignedTx(state)
+  ...getTransaction(state),
+  walletType: getWalletType(state),
+  serializedTransaction: getSerializedTransaction(state),
+  networkRequestPending: isNetworkRequestPending(state),
+  isWeb3Wallet: getWalletType(state).isWeb3Wallet,
+  validGasPrice: isValidGasPrice(state),
+  validGasLimit: isValidGasLimit(state),
+  signedTx: !!getSignedTx(state)
 }))(GenerateTransactionFactoryClass);

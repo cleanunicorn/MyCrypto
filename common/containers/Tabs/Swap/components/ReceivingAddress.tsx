@@ -1,20 +1,19 @@
-import React, { PureComponent } from 'react';
-
-import { donationAddressMap } from 'config';
-import translate, { translateRaw } from 'translations';
-import { isValidBTCAddress, isValidETHAddress } from 'libs/validators';
-import { combineAndUpper } from 'utils/formatters';
-import { SwapInput } from 'features/swap/types';
 import {
   TBityOrderCreateRequestedSwap,
   TChangeStepSwap,
   TDestinationAddressSwap,
   TShapeshiftOrderCreateRequestedSwap,
   TStopLoadBityRatesSwap
-} from 'features/swap/actions';
+} from 'actions/swap';
+import { SwapInput } from 'reducers/swap/types';
 import SimpleButton from 'components/ui/SimpleButton';
-import { Input } from 'components/ui';
+import { donationAddressMap } from 'config';
+import { isValidBTCAddress, isValidETHAddress } from 'libs/validators';
+import React, { PureComponent } from 'react';
+import translate, { translateRaw } from 'translations';
+import { combineAndUpper } from 'utils/formatters';
 import './ReceivingAddress.scss';
+import { Input } from 'components/ui';
 
 export interface StateProps {
   origin: SwapInput;

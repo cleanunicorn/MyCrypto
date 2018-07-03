@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
-import QRCode from 'qrcode.react';
-
 import translate from 'translations';
+import QRCode from 'qrcode.react';
 import './BitcoinQR.scss';
 
 interface Props {
@@ -15,11 +14,15 @@ export default class BitcoinQR extends PureComponent<Props, {}> {
     return (
       <div className="BitcoinQR">
         <section className="row block swap-address text-center">
+          <label>{translate('X_ADDRESS')}</label>
           <div className="BitcoinQR-qr">
             <QRCode value={`bitcoin:${paymentAddress}amount=${destinationAmount}`} />
           </div>
           <br />
-          <p className="BitcoinQR-warning text-danger">{translate('SWAP_TIME_LIMIT_WARNING')}</p>
+          <p className="text-danger">{translate('SWAP_TIME_LIMIT_WARNING')}</p>
+          {translate('SWAP_RECOMMENDED_TX_FEES', {
+            $link: 'https://shapeshift.io/#/btcfee'
+          })}
         </section>
       </div>
     );
