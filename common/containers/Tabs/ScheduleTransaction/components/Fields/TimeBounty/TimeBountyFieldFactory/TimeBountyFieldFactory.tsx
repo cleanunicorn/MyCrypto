@@ -1,12 +1,12 @@
+import { Query } from 'components/renderCbs';
+import { setCurrentTimeBounty, TSetCurrentTimeBounty } from 'actions/schedule';
+import { TimeBountyInputFactory } from './TimeBountyInputFactory';
 import React from 'react';
 import { connect } from 'react-redux';
-
-import { scheduleActions, scheduleSelectors } from 'features/schedule';
-import { Query } from 'components/renderCbs';
-import { TimeBountyInputFactory } from './TimeBountyInputFactory';
+import { ICurrentTimeBounty } from 'selectors/schedule';
 
 interface DispatchProps {
-  setCurrentTimeBounty: scheduleActions.TSetCurrentTimeBounty;
+  setCurrentTimeBounty: TSetCurrentTimeBounty;
 }
 
 interface OwnProps {
@@ -17,7 +17,7 @@ interface OwnProps {
 export interface CallbackProps {
   isValid: boolean;
   readOnly: boolean;
-  currentTimeBounty: scheduleSelectors.ICurrentTimeBounty;
+  currentTimeBounty: ICurrentTimeBounty;
   onChange(ev: React.FormEvent<HTMLInputElement>): void;
 }
 
@@ -43,9 +43,7 @@ class TimeBountyFieldFactoryClass extends React.Component<Props> {
   };
 }
 
-const TimeBountyFieldFactory = connect(null, {
-  setCurrentTimeBounty: scheduleActions.setCurrentTimeBounty
-})(TimeBountyFieldFactoryClass);
+const TimeBountyFieldFactory = connect(null, { setCurrentTimeBounty })(TimeBountyFieldFactoryClass);
 
 interface DefaultTimeBountyFieldProps {
   withProps(props: CallbackProps): React.ReactElement<any> | null;

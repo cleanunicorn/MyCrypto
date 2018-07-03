@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { AppState } from 'reducers';
 import translate from 'translations';
-import { IWallet } from 'libs/wallet/IWallet';
-import { AppState } from 'features/reducers';
-import closeIcon from 'assets/images/close.svg';
 import WalletDecrypt, { DisabledWallets } from 'components/WalletDecrypt';
+import { IWallet } from 'libs/wallet/IWallet';
+import closeIcon from 'assets/images/close.svg';
 import './UnlockHeader.scss';
 
 interface Props {

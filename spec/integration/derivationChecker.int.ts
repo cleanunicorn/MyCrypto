@@ -1,7 +1,5 @@
 import { generate, IFullWallet } from 'ethereumjs-wallet';
-
-import { stripHexPrefix } from '../../common/libs/formatters';
-
+import { stripHexPrefix } from '../../common/libs/values';
 const { exec } = require('child_process');
 
 // FIXME pick a less magic number

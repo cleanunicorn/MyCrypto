@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { addHexPrefix } from 'ethereumjs-util';
-
-import { donationAddressMap } from 'config';
 import translate, { translateRaw } from 'translations';
+import { getNetworkContracts } from 'selectors/config';
+import { connect } from 'react-redux';
+import { AppState } from 'reducers';
+import { isValidETHAddress, isValidAbiJson } from 'libs/validators';
 import { NetworkContract } from 'types/network';
-import { isValidAbiJson } from 'libs/validators';
-import { AppState } from 'features/reducers';
-import * as selectors from 'features/selectors';
-import { getNetworkContracts, getIsValidAddressFn } from 'features/config';
-import { setCurrentTo, TSetCurrentTo } from 'features/transaction/actions';
+import { donationAddressMap } from 'config';
 import { Input, TextArea, CodeBlock, Dropdown } from 'components/ui';
 import { AddressFieldFactory } from 'components/AddressFieldFactory';
+import { getCurrentTo } from 'selectors/transaction';
+import { addHexPrefix } from 'ethereumjs-util';
+import { setCurrentTo, TSetCurrentTo } from 'actions/transaction';
 
 interface ContractOption {
   name: string;
@@ -19,9 +18,8 @@ interface ContractOption {
 }
 
 interface StateProps {
-  currentTo: ReturnType<typeof selectors.getCurrentTo>;
+  currentTo: ReturnType<typeof getCurrentTo>;
   contracts: NetworkContract[];
-  isValidAddress: ReturnType<typeof getIsValidAddressFn>;
 }
 
 interface OwnProps {
@@ -77,9 +75,9 @@ class InteractForm extends Component<Props, State> {
   };
 
   public render() {
-    const { contracts, accessContract, currentTo, isValidAddress } = this.props;
+    const { contracts, accessContract, currentTo } = this.props;
     const { abiJson, contract } = this.state;
-    const validEthAddress = isValidAddress(
+    const validEthAddress = isValidETHAddress(
       currentTo.value ? addHexPrefix(currentTo.value.toString('hex')) : ''
     );
     const validAbiJson = isValidAbiJson(abiJson);
@@ -205,8 +203,7 @@ class InteractForm extends Component<Props, State> {
 
 const mapStateToProps = (state: AppState) => ({
   contracts: getNetworkContracts(state) || [],
-  currentTo: selectors.getCurrentTo(state),
-  isValidAddress: getIsValidAddressFn(state)
+  currentTo: getCurrentTo(state)
 });
 
 export default connect(mapStateToProps, { setCurrentTo })(InteractForm);

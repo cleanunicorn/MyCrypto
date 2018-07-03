@@ -1,21 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { exists, SuccessConfig, FailConfig } from 'mycrypto-eth-exists';
-
+import Modal, { IButton } from 'components/ui/Modal';
 import translate, { translateRaw } from 'translations';
 import { CustomNetworkConfig } from 'types/network';
 import { CustomNodeConfig } from 'types/node';
-import { AppState } from 'features/reducers';
+import { TAddCustomNetwork, addCustomNetwork, AddCustomNodeAction } from 'actions/config';
+import { connect } from 'react-redux';
+import { AppState } from 'reducers';
 import {
   getCustomNetworkConfigs,
-  getStaticNetworkConfigs,
   getCustomNodeConfigs,
-  AddCustomNodeAction,
-  TAddCustomNetwork,
-  addCustomNetwork
-} from 'features/config';
+  getStaticNetworkConfigs
+} from 'selectors/config';
 import { Input, Dropdown } from 'components/ui';
-import Modal, { IButton } from 'components/ui/Modal';
 import './CustomNodeModal.scss';
 
 const CUSTOM = { label: 'Custom', value: 'custom' };
@@ -46,13 +42,12 @@ interface State {
   hasAuth: boolean;
   username: string;
   password: string;
-  defaultNodes: ((SuccessConfig | FailConfig) & { display: string; index: number })[];
 }
 
 type Props = OwnProps & StateProps & DispatchProps;
 
 class CustomNodeModal extends React.Component<Props, State> {
-  public INITIAL_STATE: State = {
+  public INITIAL_STATE = {
     name: '',
     url: '',
     network: Object.keys(this.props.staticNetworks)[0],
@@ -61,31 +56,15 @@ class CustomNodeModal extends React.Component<Props, State> {
     customNetworkChainId: '',
     hasAuth: false,
     username: '',
-    password: '',
-    defaultNodes: []
+    password: ''
   };
-
   public state: State = this.INITIAL_STATE;
-
-  private timer: number | null;
-
-  constructor(props: Props) {
-    super(props);
-    this.pollForDefaultNodes();
-  }
 
   public componentDidUpdate(prevProps: Props) {
     // Reset state when modal opens
     if (!prevProps.isOpen && prevProps.isOpen !== this.props.isOpen) {
       this.setState(this.INITIAL_STATE);
     }
-  }
-
-  public componentWillUnmount() {
-    if (this.timer) {
-      window.clearInterval(this.timer);
-    }
-    this.timer = null;
   }
 
   public render() {
@@ -134,8 +113,6 @@ class CustomNodeModal extends React.Component<Props, State> {
             {translate('CUSTOM_NODE_NAME_CONFLICT', { $node: nameConflictNode.name })}
           </div>
         )}
-
-        {this.renderDefaultNodeDropdown()}
 
         <form className="CustomNodeModal">
           <div className="flex-wrapper">
@@ -248,53 +225,6 @@ class CustomNodeModal extends React.Component<Props, State> {
           )}
         </form>
       </Modal>
-    );
-  }
-
-  private pollForDefaultNodes() {
-    const pollingInterval = 3000;
-    this.timer = window.setInterval(async () => {
-      const results = await exists(
-        [
-          // tslint:disable-next-line:no-http-string
-          { type: 'http', addr: 'http://localhost', port: 8545, timeout: 3000 }
-        ],
-        { includeDefaults: false }
-      );
-      if (!this.timer) {
-        return;
-      }
-      this.setState({
-        defaultNodes: results.filter(r => r.success).map((r, index) => ({
-          ...r,
-          display: `${r.addr}:${r.port}`,
-          index
-        }))
-      });
-    }, pollingInterval);
-  }
-
-  private renderDefaultNodeDropdown() {
-    const { defaultNodes } = this.state;
-    if (!defaultNodes.length) {
-      return null;
-    }
-
-    return (
-      <label className="col-sm-12 input-group">
-        <div className="input-group-header"> {'Default Nodes Found'}</div>
-        <Dropdown
-          options={this.state.defaultNodes.map(n => ({ label: n.display, value: n.index }))}
-          onChange={({ value }: { value: string }) => {
-            const result = this.state.defaultNodes.find(d => d.index === +value);
-            if (!result) {
-              return;
-            }
-            const { addr, port } = result;
-            this.setState({ url: `${addr}:${port}`, name: 'MyDefaultNode' });
-          }}
-        />
-      </label>
     );
   }
 

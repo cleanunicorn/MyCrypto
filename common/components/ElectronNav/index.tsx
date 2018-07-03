@@ -1,1 +1,2 @@
-export { default } from './ElectronNav';
+import ElectronNav from './ElectronNav';
+export default ElectronNav;

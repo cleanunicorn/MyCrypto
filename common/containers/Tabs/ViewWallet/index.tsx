@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import translate from 'translations';
 import TabSection from 'containers/TabSection';
 

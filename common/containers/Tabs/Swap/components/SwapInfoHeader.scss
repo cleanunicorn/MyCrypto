@@ -12,10 +12,12 @@ $top-height: 40px;
       @include reset-button;
       line-height: $top-height;
       font-size: $font-size-small;
-      color: shade-dark(0.3);
+      color: $gray-light;
+      opacity: 0.7;
 
       &:hover {
-        color: shade-dark(0.6);
+        color: $gray-dark;
+        opacity: 1;
       }
 
       .fa {
@@ -48,7 +50,7 @@ $top-height: 40px;
       min-height: 100px;
       text-align: center;
       padding: 1.2rem 0;
-      color: color(text-color-inverted);
+      color: #fff;
 
       &:nth-child(4n + 1) {
         background-color: #175575;

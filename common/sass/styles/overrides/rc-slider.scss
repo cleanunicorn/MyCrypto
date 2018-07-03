@@ -3,6 +3,7 @@
 $rail-height: 4px;
 $handle-size: 22px;
 $speed: 70ms;
+$tooltip-bg: rgba(#222, 0.95);
 
 @keyframes slider-loading {
   0%, 100% {
@@ -15,18 +16,18 @@ $speed: 70ms;
 
 .rc-slider {
   &-rail {
-    background: shade-dark(0.12);
+    background: $gray-lighter;
   }
 
   &-track {
-    background: color(brand-primary);
+    background: $brand-primary;
   }
 
   &-handle {
     top: 50%;
     width: $handle-size;
     height: $handle-size;
-    background: color(brand-primary);
+    background: $brand-primary;
     margin: 0;
     border: none;
     transform: translate(-50%, -50%);
@@ -35,12 +36,12 @@ $speed: 70ms;
   &-tooltip {
     &-arrow {
       .rc-slider-tooltip-placement-top & {
-        border-top-color: color(tooltip-bg);
+        border-top-color: $tooltip-bg;
       }
     }
 
     &-inner {
-      background: color(tooltip-bg);
+      background: $tooltip-bg;
       padding: 7px 8px;
       height: 26px;
       box-shadow: none;

@@ -1,9 +1,8 @@
 import React from 'react';
-
 import translate, { translateRaw } from 'translations';
 import { Input, Tooltip } from 'components/ui';
-import Help from 'components/ui/Help';
 import { TimeBountyFieldFactory } from './TimeBountyFieldFactory';
+import Help from 'components/ui/Help';
 
 interface Props {
   isReadOnly?: boolean;

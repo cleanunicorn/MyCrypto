@@ -1,12 +1,11 @@
-import React from 'react';
-import { IV3Wallet } from 'ethereumjs-wallet';
-
-import translate, { translateRaw } from 'translations';
-import { stripHexPrefix } from 'libs/formatters';
-import { Input } from 'components/ui';
 import PrintableWallet from 'components/PrintableWallet';
-import Template from '../Template';
+import { IV3Wallet } from 'ethereumjs-wallet';
+import React from 'react';
+import translate, { translateRaw } from 'translations';
+import { stripHexPrefix } from 'libs/values';
 import './PaperWallet.scss';
+import Template from '../Template';
+import { Input } from 'components/ui';
 
 interface Props {
   keystore: IV3Wallet;
@@ -32,7 +31,7 @@ const PaperWallet: React.SFC<Props> = props => (
       </label>
 
       {/* Download Paper Wallet */}
-      <h2 className="GenPaper-title">{translate('X_SAVE_PAPER')}</h2>
+      <h2 className="GenPaper-title">{translate('X_PRINT')}</h2>
       <div className="GenPaper-paper">
         <PrintableWallet address={props.keystore.address} privateKey={props.privateKey} />
       </div>

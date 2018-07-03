@@ -1,8 +1,7 @@
-import React from 'react';
-import { ConfigState } from 'features/config/types';
-import { loadStatePropertyOrEmptyObject } from 'utils/localStorage';
 import TranslateMarkdown from 'components/Translate';
-
+import React from 'react';
+import { State as ConfigState } from 'reducers/config';
+import { loadStatePropertyOrEmptyObject } from 'utils/localStorage';
 const fallbackLanguage = 'en';
 const repository: {
   [language: string]: {
@@ -71,8 +70,7 @@ export function translateRaw(key: string, variables?: { [name: string]: string }
     // Find each variable and replace it in the translated string
     let str = translatedString;
     Object.keys(variables).forEach(v => {
-      const re = new RegExp(v.replace('$', '\\$'), 'g');
-      str = str.replace(re, variables[v]);
+      str = str.replace(v, variables[v]);
     });
     return str;
   }

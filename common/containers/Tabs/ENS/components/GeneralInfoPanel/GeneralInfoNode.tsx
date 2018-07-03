@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { HeaderProps, ListProps, NodeProps, NodeState } from './types';
 
 const InfoHeader = ({ children, onClickHandler }: HeaderProps) => (

@@ -1,8 +1,7 @@
+import { getParam } from 'utils/helpers';
+import queryString from 'query-string';
 import React from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import queryString from 'query-string';
-
-import { getParam } from 'utils/helpers';
 
 const parse = (location: RouteComponentProps<any>['location']): Query => {
   const searchStr = location.search;

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import ShapeshiftLogo from 'assets/images/logo-shapeshift.svg';
 import translate from 'translations';
 

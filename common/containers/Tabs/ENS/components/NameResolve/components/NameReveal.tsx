@@ -1,11 +1,10 @@
 import React from 'react';
-
-import translate from 'translations';
-import { Wei } from 'libs/units';
 import { IRevealDomainRequest } from 'libs/ens';
-import { ensV3Url } from 'utils/formatters';
-import { UnitDisplay } from 'components/ui';
 import ENSTime from './components/ENSTime';
+import { UnitDisplay } from 'components/ui';
+import { Wei } from 'libs/units';
+import { ensV3Url } from 'utils/formatters';
+import translate from 'translations';
 
 export const NameReveal: React.SFC<IRevealDomainRequest> = props => (
   <section className="row text-center">

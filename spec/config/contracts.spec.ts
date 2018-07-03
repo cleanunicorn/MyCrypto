@@ -1,7 +1,6 @@
-import configuredStore from 'features/store';
+import { configuredStore } from 'store';
 import CONTRACTS from 'config/contracts';
 import { isValidETHAddress } from 'libs/validators';
-
 configuredStore.getState();
 
 describe('Contracts JSON', () => {

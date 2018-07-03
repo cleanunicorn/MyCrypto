@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
-import Contract from 'libs/contracts';
-import * as selectors from 'features/selectors';
-import { notificationsActions } from 'features/notifications';
 import InteractForm from './components/InteractForm';
-import { InteractExplorer } from './components/InteractExplorer';
+import { InteractExplorer } from './components//InteractExplorer';
+import Contract from 'libs/contracts';
+import { showNotification, TShowNotification } from 'actions/notifications';
+import { connect } from 'react-redux';
+import { getCurrentTo } from 'selectors/transaction';
 
 interface State {
   currentContract: Contract | null;
@@ -13,11 +12,11 @@ interface State {
 }
 
 interface StateProps {
-  currentTo: ReturnType<typeof selectors.getCurrentTo>;
+  currentTo: ReturnType<typeof getCurrentTo>;
 }
 
 interface DispatchProps {
-  showNotification: notificationsActions.TShowNotification;
+  showNotification: TShowNotification;
 }
 
 type Props = StateProps & DispatchProps;
@@ -69,6 +68,4 @@ class InteractClass extends Component<Props, State> {
   private resetState = () => this.setState(this.initialState);
 }
 
-export const Interact = connect(null, { showNotification: notificationsActions.showNotification })(
-  InteractClass
-);
+export const Interact = connect(null, { showNotification })(InteractClass);

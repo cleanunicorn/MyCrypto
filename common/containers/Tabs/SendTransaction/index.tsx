@@ -1,16 +1,12 @@
 import React from 'react';
-import { RouteComponentProps, Route, Switch, Redirect } from 'react-router';
 import { connect } from 'react-redux';
-
 import translate from 'translations';
-import { AppState } from 'features/reducers';
-import { isNetworkUnit } from 'features/config';
-import { walletSelectors } from 'features/wallet';
 import TabSection from 'containers/TabSection';
-import { RedirectWithQuery } from 'components/RedirectWithQuery';
 import { UnlockHeader } from 'components/ui';
-import SubTabs, { Tab } from 'components/SubTabs';
-import { RouteNotFound } from 'components/RouteNotFound';
+import { getWalletInst } from 'selectors/wallet';
+import { AppState } from 'reducers';
+import { RouteComponentProps, Route, Switch, Redirect } from 'react-router';
+import { RedirectWithQuery } from 'components/RedirectWithQuery';
 import {
   WalletInfo,
   RequestPayment,
@@ -20,6 +16,9 @@ import {
   UnavailableWallets,
   SideBar
 } from './components';
+import SubTabs, { Tab } from 'components/SubTabs';
+import { RouteNotFound } from 'components/RouteNotFound';
+import { isNetworkUnit } from 'selectors/config/wallet';
 
 const Send = () => (
   <React.Fragment>
@@ -125,6 +124,6 @@ class SendTransaction extends React.Component<Props> {
 }
 
 export default connect((state: AppState) => ({
-  wallet: walletSelectors.getWalletInst(state),
+  wallet: getWalletInst(state),
   requestDisabled: !isNetworkUnit(state, 'ETH')
 }))(SendTransaction);

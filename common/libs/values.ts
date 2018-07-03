@@ -1,6 +1,14 @@
 import { Wei, toTokenBase } from 'libs/units';
 import { addHexPrefix } from 'ethereumjs-util';
-import { AppState } from 'features/reducers';
+import { AppState } from 'reducers';
+
+export function stripHexPrefix(value: string) {
+  return value.replace('0x', '');
+}
+
+export function stripHexPrefixAndLower(value: string): string {
+  return stripHexPrefix(value).toLowerCase();
+}
 
 export function toHexWei(weiString: string): string {
   return addHexPrefix(Wei(weiString).toString(16));

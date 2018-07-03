@@ -1,24 +1,29 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import Slider, { createSliderWithTooltip } from 'rc-slider';
-
-import { gasPriceDefaults } from 'config';
 import translate from 'translations';
-import { Wei, fromWei } from 'libs/units';
-import { AppState } from 'features/reducers';
-import { getIsWeb3Node } from 'features/config';
-import { transactionFieldsActions, transactionNetworkSelectors } from 'features/transaction';
-import { gasActions, gasSelectors } from 'features/gas';
-import { scheduleSelectors } from 'features/schedule';
-import { InlineSpinner } from 'components/ui/InlineSpinner';
-import FeeSummary from './FeeSummary';
 import './SimpleGas.scss';
+import { AppState } from 'reducers';
+import {
+  getGasLimitEstimationTimedOut,
+  getGasEstimationPending,
+  nonceRequestPending
+} from 'selectors/transaction';
+import { connect } from 'react-redux';
+import { fetchGasEstimates, TFetchGasEstimates } from 'actions/gas';
+import { getIsWeb3Node } from 'selectors/config';
+import { getEstimates, getIsEstimating } from 'selectors/gas';
+import { Wei, fromWei } from 'libs/units';
+import { gasPriceDefaults } from 'config';
+import { InlineSpinner } from 'components/ui/InlineSpinner';
+import { TInputGasPrice } from 'actions/transaction';
+import FeeSummary from './FeeSummary';
+import { getScheduleGasPrice } from 'selectors/schedule';
 
 const SliderWithTooltip = createSliderWithTooltip(Slider);
 
 interface OwnProps {
   gasPrice: AppState['transaction']['fields']['gasPrice'];
-  setGasPrice: transactionFieldsActions.TInputGasPrice;
+  setGasPrice: TInputGasPrice;
 
   inputGasPrice(rawGas: string): void;
 }
@@ -34,7 +39,7 @@ interface StateProps {
 }
 
 interface ActionProps {
-  fetchGasEstimates: gasActions.TFetchGasEstimates;
+  fetchGasEstimates: TFetchGasEstimates;
 }
 
 type Props = OwnProps & StateProps & ActionProps;
@@ -147,15 +152,15 @@ class SimpleGas extends React.Component<Props> {
 
 export default connect(
   (state: AppState): StateProps => ({
-    gasEstimates: gasSelectors.getEstimates(state),
-    isGasEstimating: gasSelectors.getIsEstimating(state),
-    noncePending: transactionNetworkSelectors.nonceRequestPending(state),
-    gasLimitPending: transactionNetworkSelectors.getGasEstimationPending(state),
-    gasLimitEstimationTimedOut: transactionNetworkSelectors.getGasLimitEstimationTimedOut(state),
+    gasEstimates: getEstimates(state),
+    isGasEstimating: getIsEstimating(state),
+    noncePending: nonceRequestPending(state),
+    gasLimitPending: getGasEstimationPending(state),
+    gasLimitEstimationTimedOut: getGasLimitEstimationTimedOut(state),
     isWeb3Node: getIsWeb3Node(state),
-    scheduleGasPrice: scheduleSelectors.getScheduleGasPrice(state)
+    scheduleGasPrice: getScheduleGasPrice(state)
   }),
   {
-    fetchGasEstimates: gasActions.fetchGasEstimates
+    fetchGasEstimates
   }
 )(SimpleGas);

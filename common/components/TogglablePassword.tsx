@@ -3,9 +3,8 @@
 // Pass `isVisible` and `handleToggleVisibility` to control the visibility
 // yourself, otherwise all visibiility changes are managed in internal state.
 import React from 'react';
-
-import { Input, TextArea } from 'components/ui';
 import './TogglablePassword.scss';
+import { Input, TextArea } from 'components/ui';
 
 interface Props {
   // Shared props

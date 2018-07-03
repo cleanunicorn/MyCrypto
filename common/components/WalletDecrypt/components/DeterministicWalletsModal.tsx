@@ -1,19 +1,23 @@
 import React from 'react';
-import Select, { Option } from 'react-select';
 import { connect } from 'react-redux';
-
+import Select, { Option } from 'react-select';
+import { toChecksumAddress } from 'ethereumjs-util';
 import translate, { translateRaw } from 'translations';
-import { isValidPath } from 'libs/validators';
-import { AppState } from 'features/reducers';
-import { getNetworkConfig } from 'features/config';
-import * as selectors from 'features/selectors';
 import {
-  deterministicWalletsTypes,
-  deterministicWalletsActions
-} from 'features/deterministicWallets';
-import { addressBookSelectors } from 'features/addressBook';
-import { UnitDisplay, Input } from 'components/ui';
+  DeterministicWalletData,
+  getDeterministicWallets,
+  GetDeterministicWalletsAction,
+  GetDeterministicWalletsArgs,
+  setDesiredToken,
+  SetDesiredTokenAction
+} from 'actions/deterministicWallets';
 import Modal, { IButton } from 'components/ui/Modal';
+import { AppState } from 'reducers';
+import { isValidPath } from 'libs/validators';
+import { getNetworkConfig } from 'selectors/config';
+import { getTokens } from 'selectors/wallet';
+import { getAddressLabels } from 'selectors/addressBook';
+import { UnitDisplay, Input } from 'components/ui';
 import './DeterministicWalletsModal.scss';
 
 const WALLETS_PER_PAGE = 5;
@@ -28,18 +32,16 @@ interface OwnProps {
 }
 
 interface StateProps {
-  addressLabels: ReturnType<typeof addressBookSelectors.getAddressLabels>;
+  addressLabels: ReturnType<typeof getAddressLabels>;
   wallets: AppState['deterministicWallets']['wallets'];
   desiredToken: AppState['deterministicWallets']['desiredToken'];
   network: ReturnType<typeof getNetworkConfig>;
-  tokens: ReturnType<typeof selectors.getTokens>;
+  tokens: ReturnType<typeof getTokens>;
 }
 
 interface DispatchProps {
-  getDeterministicWallets(
-    args: deterministicWalletsTypes.GetDeterministicWalletsArgs
-  ): deterministicWalletsTypes.GetDeterministicWalletsAction;
-  setDesiredToken(tkn: string | undefined): deterministicWalletsTypes.SetDesiredTokenAction;
+  getDeterministicWallets(args: GetDeterministicWalletsArgs): GetDeterministicWalletsAction;
+  setDesiredToken(tkn: string | undefined): SetDesiredTokenAction;
   onCancel(): void;
   onConfirmAddress(address: string, addressIndex: number): void;
   onPathChange(dPath: DPath): void;
@@ -199,13 +201,14 @@ class DeterministicWalletsModalClass extends React.PureComponent<Props, State> {
 
   private getAddresses(props: Props = this.props) {
     const { dPath, publicKey, chainCode, seed } = props;
+
     if (dPath && ((publicKey && chainCode) || seed)) {
       if (isValidPath(dPath.value)) {
         this.props.getDeterministicWallets({
           seed,
-          dPath: dPath.value,
           publicKey,
           chainCode,
+          dPath: dPath.value,
           limit: WALLETS_PER_PAGE,
           offset: WALLETS_PER_PAGE * this.state.page
         });
@@ -274,10 +277,10 @@ class DeterministicWalletsModalClass extends React.PureComponent<Props, State> {
     );
   }
 
-  private renderWalletRow(wallet: deterministicWalletsTypes.DeterministicWalletData) {
+  private renderWalletRow(wallet: DeterministicWalletData) {
     const { desiredToken, network, addressLabels } = this.props;
     const { selectedAddress } = this.state;
-    const label = addressLabels[wallet.address.toLowerCase()];
+    const label = addressLabels[toChecksumAddress(wallet.address)];
     const spanClassName = label ? 'DWModal-addresses-table-address-text' : '';
 
     // Get renderable values, but keep 'em short
@@ -339,17 +342,17 @@ class DeterministicWalletsModalClass extends React.PureComponent<Props, State> {
 
 function mapStateToProps(state: AppState): StateProps {
   return {
-    addressLabels: addressBookSelectors.getAddressLabels(state),
+    addressLabels: getAddressLabels(state),
     wallets: state.deterministicWallets.wallets,
     desiredToken: state.deterministicWallets.desiredToken,
     network: getNetworkConfig(state),
-    tokens: selectors.getTokens(state)
+    tokens: getTokens(state)
   };
 }
 
 const DeterministicWalletsModal = connect(mapStateToProps, {
-  getDeterministicWallets: deterministicWalletsActions.getDeterministicWallets,
-  setDesiredToken: deterministicWalletsActions.setDesiredToken
+  getDeterministicWallets,
+  setDesiredToken
 })(DeterministicWalletsModalClass);
 
 export default DeterministicWalletsModal;

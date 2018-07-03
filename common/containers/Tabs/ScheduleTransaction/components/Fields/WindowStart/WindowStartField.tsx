@@ -1,5 +1,4 @@
 import React from 'react';
-
 import translate, { translateRaw } from 'translations';
 import { Input } from 'components/ui';
 import { WindowStartFieldFactory } from './WindowStartFieldFactory';

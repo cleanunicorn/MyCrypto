@@ -1,44 +1,50 @@
+import { isValidETHAddress } from 'libs/validators';
 import React from 'react';
-import { connect } from 'react-redux';
 import makeBlockie from 'ethereum-blockies-base64';
 
-import { AppState } from 'features/reducers';
-import { getIsValidAddressFn } from 'features/config';
-import './Identicon.scss';
-
-interface OwnProps {
+interface Props {
   address: string;
   className?: string;
   size?: string;
 }
 
-interface StateProps {
-  isValidAddress: ReturnType<typeof getIsValidAddressFn>;
-}
-
-type Props = OwnProps & StateProps;
-
-const Identicon: React.SFC<Props> = props => {
+export default function Identicon(props: Props) {
   const size = props.size || '4rem';
-  const { address, isValidAddress, className = '' } = props;
-  const identiconDataUrl = isValidAddress(address) ? makeBlockie(address) : '';
-
+  const { address, className = '' } = props;
+  // FIXME breaks on failed checksums
+  const identiconDataUrl = isValidETHAddress(address) ? makeBlockie(address) : '';
   return (
     // Use inline styles for printable wallets
     <div
       className={`Identicon ${className}`}
       title="Address Identicon"
-      style={{ width: size, height: size }}
+      style={{ width: size, height: size, position: 'relative' }}
       aria-hidden={!identiconDataUrl}
     >
       {identiconDataUrl && (
-        <img className="Identicon-img" src={identiconDataUrl} alt="Unique Address Image" />
+        <img
+          src={identiconDataUrl}
+          alt="Unique Address Image"
+          style={{
+            height: '100%',
+            width: '100%',
+            padding: '0px',
+            borderRadius: '50%'
+          }}
+        />
       )}
-      <div className="Identicon-shadow" />
+      <div
+        className="border"
+        style={{
+          position: 'absolute',
+          height: '100%',
+          width: '100%',
+          top: 0,
+          boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.15), inset 0 0 3px 0 rgba(0, 0, 0, 0.15)',
+          borderRadius: '50%',
+          pointerEvents: 'none'
+        }}
+      />
     </div>
   );
-};
-
-export default connect((state: AppState): StateProps => ({
-  isValidAddress: getIsValidAddressFn(state)
-}))(Identicon);
+}

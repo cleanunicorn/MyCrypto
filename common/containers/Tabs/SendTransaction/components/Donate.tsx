@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { donationAddressMap } from 'config';
+import React from 'react';
 import translate from 'translations';
 
 interface Props {

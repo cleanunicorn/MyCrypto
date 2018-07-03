@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import classnames from 'classnames';
 import { Option } from 'react-select';
-
 import './SwapDropdown.scss';
 
 export interface SingleCoin {

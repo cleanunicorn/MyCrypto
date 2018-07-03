@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
 import translate from 'translations';
-import { AppState } from 'features/reducers';
-import { scheduleSelectors } from 'features/schedule';
-import { SendScheduleTransactionButtonFactory } from 'containers/Tabs/ScheduleTransaction/components/SendScheduleTransactionButtonFactory';
 import { ConfirmationModal } from 'components/ConfirmationModal';
 import { SigningStatus } from 'components';
+import { SendScheduleTransactionButtonFactory } from 'containers/Tabs/ScheduleTransaction/components/SendScheduleTransactionButtonFactory';
+import { connect } from 'react-redux';
+import { AppState } from 'reducers';
+import { getScheduleParamsValidity } from 'selectors/schedule/fields';
 
 interface Props {
   className?: string;
@@ -45,5 +44,5 @@ class SendScheduleTransactionButtonClass extends Component<Props> {
 }
 
 export const SendScheduleTransactionButton = connect((state: AppState) => ({
-  paramsValidity: scheduleSelectors.getScheduleParamsValidity(state).value
+  paramsValidity: getScheduleParamsValidity(state).value
 }))(SendScheduleTransactionButtonClass);

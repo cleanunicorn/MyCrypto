@@ -1,8 +1,6 @@
 import { BrowserWindow, Menu, shell } from 'electron';
 import { URL } from 'url';
-import path from 'path';
 import MENU from './menu';
-import popupContextMenu from './contextMenu';
 import { APP_TITLE } from '../constants';
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -26,8 +24,7 @@ export default function getWindow() {
     webPreferences: {
       devTools: true,
       nodeIntegration: false,
-      contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js')
+      contextIsolation: true
     }
   });
 
@@ -49,10 +46,6 @@ export default function getWindow() {
     } else {
       console.warn(`Blocked request to open new window '${urlStr}', only HTTPS links are allowed`);
     }
-  });
-
-  window.webContents.on('context-menu', (_, props) => {
-    popupContextMenu(window!, isDevelopment, props);
   });
 
   // TODO: Figure out updater release process

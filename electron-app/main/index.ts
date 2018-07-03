@@ -1,6 +1,4 @@
-import 'babel-polyfill';
 import { app } from 'electron';
-import { registerServer } from 'shared/enclave/server';
 import getWindow from './window';
 
 // Quit application when all windows are closed
@@ -22,6 +20,3 @@ app.on('activate', () => {
 app.on('ready', () => {
   getWindow();
 });
-
-// Register enclave protocol
-registerServer(app);

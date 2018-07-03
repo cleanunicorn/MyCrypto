@@ -1,5 +1,4 @@
 import React from 'react';
-
 import './OfflineTab.scss';
 
 const OfflineTab: React.SFC<{}> = () => (

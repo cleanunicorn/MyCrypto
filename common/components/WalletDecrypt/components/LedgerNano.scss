@@ -1,13 +1,5 @@
-@import 'common/sass/variables';
-
 .LedgerDecrypt {
   text-align: center;
-
-  &-tip {
-    font-size: $font-size-xs-bump;
-    opacity: 0.7;
-    margin-bottom: $space;
-  }
 
   &-help {
     margin-top: 10px;

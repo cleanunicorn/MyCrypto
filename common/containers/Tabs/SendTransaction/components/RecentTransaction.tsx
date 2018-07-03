@@ -1,10 +1,9 @@
 import React from 'react';
 import moment from 'moment';
-
-import { NetworkConfig } from 'types/network';
-import { SavedTransaction } from 'types/transactions';
 import { Wei } from 'libs/units';
 import { Identicon, Address, UnitDisplay } from 'components/ui';
+import { NetworkConfig } from 'types/network';
+import { SavedTransaction } from 'types/transactions';
 import './RecentTransaction.scss';
 
 interface Props {

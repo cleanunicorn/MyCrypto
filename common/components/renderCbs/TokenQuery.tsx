@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
-import { AppState } from 'features/reducers';
-import * as selectors from 'features/selectors';
-import { walletTypes } from 'features/wallet';
 import { Query } from './Query';
+import { connect } from 'react-redux';
+import { AppState } from 'reducers';
+import { getTokens, MergedToken } from 'selectors/wallet';
 
 interface Props {
-  tokens: walletTypes.MergedToken[];
-  withQuery({
-    token
-  }: {
-    token: walletTypes.MergedToken | null | undefined;
-  }): React.ReactElement<any>;
+  tokens: MergedToken[];
+  withQuery({ token }: { token: MergedToken | null | undefined }): React.ReactElement<any>;
 }
 
 class TokenQueryClass extends Component<Props, {}> {
@@ -29,5 +23,5 @@ class TokenQueryClass extends Component<Props, {}> {
 }
 
 export const TokenQuery = connect((state: AppState) => ({
-  tokens: selectors.getTokens(state)
+  tokens: getTokens(state)
 }))(TokenQueryClass);

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { RouteComponentProps, Switch, Route, Redirect } from 'react-router';
-
 import translate from 'translations';
-import TabSection from 'containers/TabSection';
-import SubTabs from 'components/SubTabs';
-import { RouteNotFound } from 'components/RouteNotFound';
 import SignMessage from './components/SignMessage';
 import VerifyMessage from './components/VerifyMessage';
+import TabSection from 'containers/TabSection';
+import { RouteComponentProps, Switch, Route, Redirect } from 'react-router';
+import SubTabs from 'components/SubTabs';
+import { RouteNotFound } from 'components/RouteNotFound';
 
 interface State {
   activeTab: 'sign' | 'verify';

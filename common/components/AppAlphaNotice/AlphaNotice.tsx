@@ -1,8 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-
-import { discordURL, APP_ALPHA_EXPIRATION } from 'config';
 import { NewTabLink } from 'components/ui';
+import { discordURL, APP_ALPHA_EXPIRATION } from 'config';
 import './AlphaNotice.scss';
 
 interface State {

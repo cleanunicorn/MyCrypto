@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-import translate from 'translations';
+import { AppState } from 'reducers';
+import { resolveDomainRequested, TResolveDomainRequested } from 'actions/ens';
 import { isValidENSName } from 'libs/validators';
-import { AppState } from 'features/reducers';
-import { ensActions } from 'features/ens';
-import { Input } from 'components/ui';
 import './NameInput.scss';
+import { Input } from 'components/ui';
+import translate from 'translations';
 
 interface State {
   domainToCheck: string;
@@ -16,7 +15,7 @@ interface State {
 
 interface Props {
   domainRequests: AppState['ens']['domainRequests'];
-  resolveDomainRequested: ensActions.TResolveDomainRequested;
+  resolveDomainRequested: TResolveDomainRequested;
 }
 
 class NameInput extends Component<Props, State> {
@@ -91,5 +90,5 @@ function mapStateToProps(state: AppState) {
 }
 
 export default connect(mapStateToProps, {
-  resolveDomainRequested: ensActions.resolveDomainRequested
+  resolveDomainRequested
 })(NameInput);

@@ -1,10 +1,9 @@
 import React from 'react';
-
 import translate, { translateRaw } from 'translations';
-import { EAC_SCHEDULING_CONFIG } from 'libs/scheduling';
 import { Input, Tooltip } from 'components/ui';
-import Help from 'components/ui/Help';
 import { WindowSizeFieldFactory } from './WindowSizeFieldFactory';
+import { EAC_SCHEDULING_CONFIG } from 'libs/scheduling';
+import Help from 'components/ui/Help';
 
 interface Props {
   isReadOnly?: boolean;

@@ -1,11 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
-import { HELP_ARTICLE } from 'config';
 import translate from 'translations';
-import onboardIconTen from 'assets/images/onboarding/slide-10.svg';
+import { Link } from 'react-router-dom';
 import { HelpLink } from 'components/ui';
+import { HELP_ARTICLE } from 'config';
 import OnboardSlide from './OnboardSlide';
+import onboardIconTen from 'assets/images/onboarding/slide-10.svg';
 
 interface Props {
   closeModal(): void;

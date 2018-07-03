@@ -13,7 +13,7 @@ $left-border-size: 2px;
 
 .NetworkOption {
   border-left: $left-border-size solid;
-  border-bottom: 1px solid shade-dark(0.08);
+  border-bottom: 1px solid $gray-lighter;
 
   &-label {
     display: flex;
@@ -36,40 +36,34 @@ $left-border-size: 2px;
         position: relative;
         top: 1px;
         display: inline-block;
-        border: 1px solid shade-dark(0.15);
+        border: 1px solid rgba($gray-light, 0.4);
         border-radius: 100%;
         height: $radio-size;
         width: $radio-size;
         margin-right: $space-xs;
-        box-shadow: 0 0 0 1px color(control-bg) inset;
+        box-shadow: 0 0 0 1px #FFF inset;
       }
 
       &:hover {
         &:before {
-          border-color: shade-dark(0.3);
+          border-color: rgba($gray-light, 0.7);
         }
       }
 
       &.is-selected {
         &:before {
-          background: color(brand-primary);
-          border-color: color(brand-primary);
+          background: $brand-primary;
+          border-color: $brand-primary;
         }
       }
 
       &.is-specific-node {
         &:before {
-          background: linear-gradient(
-            135deg,
-            transparent,
-            transparent 45%,
-            color(brand-primary) 45%,
-            color(brand-primary) 100%
-          );
+          background: linear-gradient(135deg, #FFF, #FFF 45%, $brand-primary 45%, $brand-primary 100%);
         }
 
         &:hover:before {
-          background: color(brand-primary-lighter);
+          background: rgba($brand-primary, 0.6);
         }
       }
 
@@ -86,19 +80,19 @@ $left-border-size: 2px;
       width: 20px;
       height: 20px;
       font-size: 10px;
-      color: shade-dark(0.4);
+      color: $gray-light;
       border-radius: 100%;
       transition-property: color, background-color, transform;
       transition-duration: 75ms;
       transition-timing-function: ease;
 
       &:hover {
-        color: shade-dark(0.6);
-        background: shade-dark(0.1);
+        color: $gray-dark;
+        background: rgba(#000, 0.1);
       }
 
       &.is-expanded {
-        color: shade-dark(0.6);
+        color: $gray-dark;
         transform: rotate(180deg);
       }
     }
@@ -106,7 +100,7 @@ $left-border-size: 2px;
 
   &-nodes {
     padding: 0.2rem 0.5rem;
-    background: shade-dark(0.02);
-    border-top: 1px solid shade-dark(0.08);
+    background: $gray-lightest;
+    border-top: 1px solid $gray-lighter;
   }
 }

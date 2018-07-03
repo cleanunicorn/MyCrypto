@@ -1,19 +1,19 @@
 @import 'common/sass/variables';
 @import 'common/sass/mixins';
 
-$footer-link-color: color(text-color-inverted);
+$footer-link-color: #fff;
 
 .Footer {
-  background-color: color(footer-bg);
+  background-color: $ether-navy;
   padding: $space-sm $space-sm 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  border-top: 3px solid color(footer-border);
+  border-top: 3px solid $brand-primary;
 
   &-section {
-    color: color(text-color-inverted);
+    color: #fff;
     padding: $space;
   }
 
@@ -43,7 +43,7 @@ $footer-link-color: color(text-color-inverted);
       width: 100%;
       padding-bottom: $space * 2;
       margin-bottom: $space * 2;
-      border-bottom: 1px solid color(gray-dark);
+      border-bottom: 1px solid rgba(#fff, 0.2);
     }
     &-support {
       text-align: center;
@@ -97,7 +97,6 @@ $footer-link-color: color(text-color-inverted);
 
     &-legal {
       font-size: $font-size-xs-bump;
-      margin-bottom: $space-md;
 
       &-text {
         display: inline-block;
@@ -158,7 +157,7 @@ $footer-link-color: color(text-color-inverted);
 
 .SocialMediaLink {
   transition: opacity 0.3s;
-  color: $footer-link-color;
+  color: #fff;
   margin: 0.55rem;
 
   > i {
@@ -168,6 +167,6 @@ $footer-link-color: color(text-color-inverted);
   &:hover,
   &:focus {
     opacity: 0.8;
-    color: $footer-link-color;
+    color: #fff;
   }
 }

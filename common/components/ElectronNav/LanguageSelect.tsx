@@ -1,10 +1,10 @@
 import React from 'react';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
-
 import { languages } from 'config';
-import { AppState } from 'features/reducers';
-import { getLanguageSelection, TChangeLanguage, changeLanguage } from 'features/config';
+import { TChangeLanguage, changeLanguage } from 'actions/config';
+import { getLanguageSelection } from 'selectors/config';
+import { AppState } from 'reducers';
 import './LanguageSelect.scss';
 
 interface OwnProps {

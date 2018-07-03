@@ -1,8 +1,7 @@
-import React, { PureComponent } from 'react';
-
+import { TShowNotification } from 'actions/notifications';
 import { bityConfig } from 'config/bity';
+import React, { PureComponent } from 'react';
 import translate, { translateRaw } from 'translations';
-import { notificationsActions } from 'features/notifications';
 import './SwapProgress.scss';
 
 export interface Props {
@@ -14,7 +13,7 @@ export interface Props {
   bityOrderStatus: string | null;
   shapeshiftOrderStatus: string | null;
   // actions
-  showNotificationWithComponent: notificationsActions.TShowNotificationWithComponent;
+  showNotification: TShowNotification;
 }
 
 interface State {
@@ -34,7 +33,7 @@ export default class SwapProgress extends PureComponent<Props, State> {
     const {
       destinationId,
       outputTx,
-      showNotificationWithComponent,
+      showNotification,
       provider,
       bityOrderStatus,
       shapeshiftOrderStatus
@@ -43,23 +42,28 @@ export default class SwapProgress extends PureComponent<Props, State> {
 
     if (isShapeshift ? shapeshiftOrderStatus === 'complete' : bityOrderStatus === 'FILL') {
       if (!hasShownViewTx) {
-        let link: string;
+        let linkElement: React.ReactElement<HTMLAnchorElement>;
+        let link;
         const notificationMessage = translateRaw('SUCCESS_3') + outputTx;
         // everything but BTC is a token
         if (destinationId !== 'BTC') {
           link = bityConfig.ETHTxExplorer(outputTx);
+          linkElement = (
+            <a href={link} target="_blank" rel="noopener noreferrer">
+              {notificationMessage}
+            </a>
+          );
           // BTC uses a different explorer
         } else {
           link = bityConfig.BTCTxExplorer(outputTx);
+          linkElement = (
+            <a href={link} target="_blank" rel="noopener noreferrer">
+              {notificationMessage}
+            </a>
+          );
         }
-
         this.setState({ hasShownViewTx: true }, () => {
-          showNotificationWithComponent('success', notificationMessage, {
-            component: 'a',
-            href: link,
-            target: '_blank',
-            rel: 'noopener noreferrer'
-          });
+          showNotification('success', linkElement);
         });
       }
     }

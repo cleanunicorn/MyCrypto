@@ -12,13 +12,13 @@
   overflow: hidden;
 
   &.is-disabled {
-    background: color(gray-lighter);
+    background: $gray-lighter;
   }
 
   &-error {
     padding: $space;
     font-size: $font-size-small;
-    color: color(gray-light);
+    color: $gray-light;
 
     &-icon {
       display: block;

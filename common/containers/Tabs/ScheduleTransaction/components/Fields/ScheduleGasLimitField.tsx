@@ -1,13 +1,13 @@
-import React from 'react';
 import { connect } from 'react-redux';
-
+import React from 'react';
+import { AppState } from 'reducers';
+import { setScheduleGasLimitField, TSetScheduleGasLimitField } from 'actions/schedule';
 import { translateRaw } from 'translations';
+import { Input, InlineSpinner } from 'components/ui';
+import { getGasEstimationPending } from 'selectors/transaction';
 import { Wei } from 'libs/units';
 import { EAC_SCHEDULING_CONFIG } from 'libs/scheduling';
-import { AppState } from 'features/reducers';
-import { scheduleActions, scheduleSelectors } from 'features/schedule';
-import { transactionNetworkSelectors } from 'features/transaction';
-import { Input, InlineSpinner } from 'components/ui';
+import { getScheduleGasLimit, isValidScheduleGasLimit } from 'selectors/schedule/fields';
 
 interface OwnProps {
   gasEstimationPending: boolean;
@@ -16,7 +16,7 @@ interface OwnProps {
 }
 
 interface DispatchProps {
-  setScheduleGasLimitField: scheduleActions.TSetScheduleGasLimitField;
+  setScheduleGasLimitField: TSetScheduleGasLimitField;
 }
 
 type Props = OwnProps & DispatchProps;
@@ -57,11 +57,11 @@ class ScheduleGasLimitFieldClass extends React.Component<Props> {
 
 export const ScheduleGasLimitField = connect(
   (state: AppState) => ({
-    gasEstimationPending: transactionNetworkSelectors.getGasEstimationPending(state),
-    scheduleGasLimit: scheduleSelectors.getScheduleGasLimit(state),
-    validScheduleGasLimit: scheduleSelectors.isValidScheduleGasLimit(state)
+    gasEstimationPending: getGasEstimationPending(state),
+    scheduleGasLimit: getScheduleGasLimit(state),
+    validScheduleGasLimit: isValidScheduleGasLimit(state)
   }),
   {
-    setScheduleGasLimitField: scheduleActions.setScheduleGasLimitField
+    setScheduleGasLimitField
   }
 )(ScheduleGasLimitFieldClass);

@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
+import { setScheduleType, TSetScheduleType } from 'actions/schedule';
 import { connect } from 'react-redux';
-
 import translate from 'translations';
-import { AppState } from 'features/reducers';
-import { scheduleActions, scheduleSelectors } from 'features/schedule';
+import { getCurrentScheduleType, ICurrentScheduleType } from 'selectors/schedule';
+import { AppState } from 'reducers';
 
 interface DispatchProps {
-  setScheduleType: scheduleActions.TSetScheduleType;
+  setScheduleType: TSetScheduleType;
 }
 
 interface StateProps {
-  currentScheduleType: scheduleSelectors.ICurrentScheduleType;
+  currentScheduleType: ICurrentScheduleType;
 }
 
 type Props = DispatchProps & StateProps;
@@ -65,7 +65,7 @@ class ScheduleTypeClass extends Component<Props> {
 
 export const ScheduleType = connect(
   (state: AppState) => ({
-    currentScheduleType: scheduleSelectors.getCurrentScheduleType(state)
+    currentScheduleType: getCurrentScheduleType(state)
   }),
-  { setScheduleType: scheduleActions.setScheduleType }
+  { setScheduleType }
 )(ScheduleTypeClass);

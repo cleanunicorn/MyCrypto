@@ -1,7 +1,6 @@
 import React from 'react';
-import noop from 'lodash/noop';
-
 import translate, { translateRaw } from 'translations';
+import noop from 'lodash/noop';
 import { Input, Identicon } from 'components/ui';
 
 interface Props {

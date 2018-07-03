@@ -1,48 +1,36 @@
 @import 'common/sass/variables';
-@import 'common/sass/mixins';
 
 .WalletWarning {
-  max-width: 820px;
+  max-width: 780px;
   margin: 0 auto;
-  text-align: center;
+  text-align: left;
 
   &-title {
-    color: color(brand-danger);
-    margin: 0 0 $space;
+    color: $brand-danger;
+    margin-top: 0;
   }
 
   &-desc {
+    margin-bottom: $space;
+  }
+
+  &-check {
+    margin-bottom: $space * 2;
+  }
+
+  &-checkboxes {
     margin-bottom: $space * 2;
   }
 
   &-buttons {
     display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
-    justify-content: center;
-    max-width: 440px;
-    margin: 0 auto #{-$space};
+    margin-bottom: -$space-sm;
 
-    &-btn {
-      width: 100%;
-      margin: 0 0 $space;
-
-      &.is-cancel {
-        @include reset-button;
-        opacity: 0.4;
-        transition: $transition;
-
-        &:hover {
-          opacity: 1;
-        }
-
-        .fa {
-          position: relative;
-          top: -1px;
-          margin-right: $space-xs;
-          font-size: 11px;
-        }
-      }
+    .btn {
+      flex: 1;
+      min-width: 280px;
+      margin: 0 $space-sm $space-sm;
     }
   }
 }
@@ -50,7 +38,7 @@
 .AcknowledgeCheckbox {
   margin-bottom: $space-sm;
 
-  &-checkbox[type='checkbox'] {
+  &-checkbox[type="checkbox"] {
     display: inline-block;
     margin-right: $space-sm;
     margin-top: 0;
